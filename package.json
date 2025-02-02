@@ -1,0 +1,53 @@
+{
+  "name": "fioxen-update",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "migrate": "npx db-migrate up",
+    "create-migration": "npx db-migrate create"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^5.0.0",
+    "@formatjs/intl-localematcher": "^0.5.10",
+    "@hookform/resolvers": "^3.10.0",
+    "@reduxjs/toolkit": "^2.0.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.0.6",
+    "db-migrate": "^0.11.14",
+    "db-migrate-mysql": "^3.0.0",
+    "isotope-layout": "^3.0.6",
+    "lodash": "^4.17.21",
+    "mysql2": "^3.6.5",
+    "negotiator": "^1.0.0",
+    "next": "^14.2.14",
+    "next-intl": "^3.4.0",
+    "nouislider-react": "^3.4.2",
+    "react": "^18.3.1",
+    "react-bootstrap": "^1.6.1",
+    "react-countup": "^6.5.3",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-icons": "^5.4.0",
+    "react-redux": "^9.0.4",
+    "react-slick": "^0.30.3",
+    "react-visibility-sensor": "^5.1.1",
+    "reapop": "^4.2.2",
+    "svix": "^1.45.1",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7",
+    "uuidv4": "^6.2.13",
+    "wowjs": "^1.1.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "5.7.3"
+  }
+}

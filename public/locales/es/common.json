@@ -1,0 +1,51 @@
+{
+  "common": {
+    "home": "Inicio",
+    "about": "Acerca",
+    "services": "Servicios",
+    "contact": "Contacto",
+    "book_now": "Reservar Ahora",
+    "view_details": "Ver Detalles",
+    "search": "Buscar",
+    "follow_us": "Síguenos",
+    "special_offers": "Tenemos Ofertas Especiales",
+    "find_offer": "Encuentra tu oferta",
+    "search_here": "Buscar aquí",
+    "listings": "Listados",
+    "pages": "Páginas",
+    "calendar": "Calendario",
+    "add_listing": "Agregar Listado"
+  },
+  "auth": {
+    "sign_in": "Iniciar Sesión",
+    "sign_up": "Registrarse",
+    "welcome_back": "¡Bienvenido de nuevo!",
+    "create_account": "Crear una Cuenta",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar Contraseña",
+    "full_name": "Nombre Completo",
+    "remember_me": "Recordarme",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "already_have_account": "¿Ya tienes una cuenta?",
+    "dont_have_account": "¿No tienes una cuenta?",
+    "or_continue_with": "O continuar con",
+    "agree_terms": "Acepto los Términos y Condiciones",
+    "sign_in_error": "Correo o contraseña inválidos",
+    "sign_up_error": "Error al crear la cuenta"
+  },
+  "profile": {
+    "my_profile": "Mi Perfil",
+    "edit_profile": "Editar Perfil",
+    "complete_profile": "Completa tu Perfil",
+    "personal_info": "Información Personal",
+    "contact_info": "Información de Contacto",
+    "address": "Dirección",
+    "phone": "Número de Teléfono",
+    "bio": "Biografía",
+    "save_changes": "Guardar Cambios",
+    "logout": "Cerrar Sesión",
+    "profile_updated": "Perfil actualizado exitosamente",
+    "update_error": "Error al actualizar el perfil"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "Index": {
+    "title": "Bienvenido a Vivo Punta Cana",
+    "description": "Tu destino de lujo en el paraíso",
+    "searchPlaceholder": "¿Qué estás buscando?",
+    "locationPlaceholder": "Ubicación",
+    "searchButton": "Buscar Ahora",
+    "featuredListings": "Listados Destacados",
+    "viewAll": "Ver Todos los Listados"
+  },
+  "Navigation": {
+    "home": "Inicio",
+    "about": "Sobre Nosotros",
+    "contact": "Contacto",
+    "login": "Iniciar Sesión",
+    "signup": "Registrarse",
+    "profile": "Perfil",
+    "listings": "Listados",
+    "addListing": "Agregar Listado",
+    "calendar": "Calendario",
+    "follow_us": "Síguenos",
+    "claim_business": "Reclama tu negocio",
+    "here": "aquí",
+    "search_here": "Buscar aquí",
+    "add_listing_btn": "Agregar Listado",
+    "search_placeholder": "Buscar aquí",
+    "menu_home": "Inicio",
+    "menu_listings": "Listados",
+    "menu_pages": "Páginas",
+    "menu_calendar": "Calendario"
+  },
+  "Auth": {
+    "signIn": "Iniciar Sesión",
+    "signUp": "Registrarse",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "orContinueWith": "O continuar con",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "createAccount": "Crear Cuenta",
+    "welcomeBack": "Bienvenido de Nuevo",
+    "enterDetails": "Por favor ingresa tus datos para continuar",
+    "loading": "Cargando...",
+    "socialButtons": "Opciones de Inicio de Sesión Social",
+    "orDivider": "O",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "full_name": "Nombre Completo",
+    "continueButton": "Continuar",
+    "footerText": "Al continuar, aceptas nuestros Términos de Servicio",
+    "or_continue_with": "O continuar con",
+    "signup_title": "Únete a Vivo Punta Cana",
+    "signup_subtitle": "Crea tu cuenta para comenzar",
+    "signup_success": "¡Cuenta creada exitosamente!",
+    "signup_error": "Error al crear la cuenta. Por favor intenta de nuevo."
+  },
+  "Profile": {
+    "complete_your_profile": "Completa tu Perfil",
+    "get_started": "Comencemos con la configuración de tu perfil",
+    "contact_info": "Información de Contacto",
+    "artist_info": "Información del Artista",
+    "business_info": "Información del Negocio",
+    "complete": "Perfil Completo",
+    "select_user_type": "Selecciona el Tipo de Usuario",
+    "user_type": {
+      "artist": "Artista",
+      "merchant": "Comerciante",
+      "user": "Usuario Regular"
+    },
+    "interests": {
+      "title": "Selecciona tus intereses",
+      "placeholder": "Buscar intereses...",
+      "noResults": "No se encontraron intereses",
+      "selected": "intereses seleccionados"
+    },
+    "form": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "phoneNumber": "Número de Teléfono",
+      "artistType": "Tipo de Artista",
+      "businessInfo": "Información del Negocio",
+      "businessLink": "Sitio Web del Negocio",
+      "businessEmail": "Correo Electrónico del Negocio"
+    },
+    "validation": {
+      "required": "Este campo es requerido",
+      "minLength": "Debe tener al menos {min} caracteres",
+      "invalidPhone": "Número de teléfono inválido",
+      "invalidEmail": "Correo electrónico inválido",
+      "invalidUrl": "URL inválida"
+    }
+  },
+  "Common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "¡Éxito!",
+    "language": "Idioma",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "required": "Requerido",
+    "optional": "Opcional",
+    "submit": "Enviar"
+  }
+}

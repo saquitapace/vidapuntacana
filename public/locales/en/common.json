@@ -1,0 +1,51 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "book_now": "Book Now",
+    "view_details": "View Details",
+    "search": "Search",
+    "follow_us": "Follow us",
+    "special_offers": "We Have Special Offers Every",
+    "find_offer": "Find your offer",
+    "search_here": "Search here",
+    "listings": "Listings",
+    "pages": "Pages",
+    "calendar": "Calendar",
+    "add_listing": "Add Listing"
+  },
+  "auth": {
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "welcome_back": "Welcome Back!",
+    "create_account": "Create an Account",
+    "email": "Email Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "full_name": "Full Name",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot Password?",
+    "already_have_account": "Already have an account?",
+    "dont_have_account": "Don't have an account?",
+    "or_continue_with": "Or continue with",
+    "agree_terms": "I agree to the Terms and Conditions",
+    "sign_in_error": "Invalid email or password",
+    "sign_up_error": "Error creating account"
+  },
+  "profile": {
+    "my_profile": "My Profile",
+    "edit_profile": "Edit Profile",
+    "complete_profile": "Complete Your Profile",
+    "personal_info": "Personal Information",
+    "contact_info": "Contact Information",
+    "address": "Address",
+    "phone": "Phone Number",
+    "bio": "Bio",
+    "save_changes": "Save Changes",
+    "logout": "Logout",
+    "profile_updated": "Profile updated successfully",
+    "update_error": "Error updating profile"
+  }
+}

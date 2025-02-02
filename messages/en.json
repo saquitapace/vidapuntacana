@@ -1,0 +1,112 @@
+{
+  "Index": {
+    "title": "Welcome to Vivo Punta Cana",
+    "description": "Your luxury destination in paradise",
+    "searchPlaceholder": "What are you looking for?",
+    "locationPlaceholder": "Location",
+    "searchButton": "Search Now",
+    "featuredListings": "Featured Listings",
+    "viewAll": "View All Listings"
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "signup": "Sign Up",
+    "profile": "Profile",
+    "listings": "Listings",
+    "addListing": "Add Listing",
+    "calendar": "Calendar",
+    "follow_us": "Follow us",
+    "claim_business": "Claim your business",
+    "here": "here",
+    "search_here": "Search here",
+    "add_listing_btn": "Add Listing",
+    "search_placeholder": "Search here",
+    "menu_home": "Home",
+    "menu_listings": "Listings",
+    "menu_pages": "Pages",
+    "menu_calendar": "Calendar"
+  },
+  "Auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot Password?",
+    "orContinueWith": "Or continue with",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create Account",
+    "welcomeBack": "Welcome Back",
+    "enterDetails": "Please enter your details to continue",
+    "loading": "Loading...",
+    "socialButtons": "Social Login Options",
+    "orDivider": "OR",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "full_name": "Full Name",
+    "continueButton": "Continue",
+    "footerText": "By continuing, you agree to our Terms of Service",
+    "or_continue_with": "Or continue with",
+    "signup_title": "Join Vivo Punta Cana",
+    "signup_subtitle": "Create your account to get started",
+    "signup_success": "Account created successfully!",
+    "signup_error": "Error creating account. Please try again."
+  },
+  "Profile": {
+    "complete_your_profile": "Complete Your Profile",
+    "get_started": "Let's get started with your profile setup",
+    "contact_info": "Contact Information",
+    "artist_info": "Artist Information",
+    "business_info": "Business Information",
+    "complete": "Profile Complete",
+    "select_user_type": "Select User Type",
+    "user_type": {
+      "artist": "Artist",
+      "merchant": "Merchant",
+      "user": "Regular User"
+    },
+    "interests": {
+      "title": "Select your interests",
+      "placeholder": "Search interests...",
+      "noResults": "No interests found",
+      "selected": "interests selected"
+    },
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phoneNumber": "Phone Number",
+      "artistType": "Artist Type",
+      "businessInfo": "Business Information",
+      "businessLink": "Business Website",
+      "businessEmail": "Business Email"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Must be at least {min} characters",
+      "invalidPhone": "Invalid phone number",
+      "invalidEmail": "Invalid email address",
+      "invalidUrl": "Invalid URL"
+    }
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success!",
+    "language": "Language",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "required": "Required",
+    "optional": "Optional",
+    "submit": "Submit"
+  }
+}

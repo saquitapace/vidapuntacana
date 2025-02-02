@@ -1,0 +1,99 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #cbd5e1; /* gray-400 */
+}
+
+.card {
+  max-width: 640px; /* max-w-screen-sm */
+  padding: 24px; /* p-6 */
+  background-color: #ffffff; /* bg-white */
+  border-radius: 8px; /* rounded-md */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px; /* mb-6 */
+}
+
+.title {
+  margin-left: 16px; /* ml-4 */
+  font-size: 1.5rem; /* text-2xl */
+  color: #4b5563; /* text-gray-600 */
+}
+
+.boldText {
+  font-weight: bold;
+  color: #4b5563; /* text-gray-600 */
+}
+
+.subText {
+  padding-bottom: 16px; /* pb-4 */
+  color: #9ca3af; /* text-gray-400 */
+  border-bottom: 1px solid #e5e7eb; /* border-b */
+}
+
+.description {
+  margin-top: 16px; /* mt-4 */
+  color: #4b5563; /* text-gray-600 */
+}
+
+.userSection {
+  margin-top: 32px; /* mt-8 */
+}
+
+.userSectionHeader {
+  padding-bottom: 8px; /* pb-2 */
+  font-weight: 600;
+  color: #4b5563; /* text-gray-600 */
+  border-bottom: 1px solid #e5e7eb; /* border-b */
+}
+
+.userList {
+  margin-top: 16px; /* mt-4 */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* space-y-2 */
+}
+
+.userCard {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px; /* px-2 py-1 */
+  border: 2px solid #e5e7eb; /* border-2 */
+  border-radius: 8px; /* rounded-md */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.userCard:hover {
+  background-color: rgba(
+    156,
+    163,
+    175,
+    0.4
+  ); /* hover:bg-gray-200 hover:bg-opacity-40 */
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+}
+
+.userImage {
+  border-radius: 50%; /* rounded-full */
+}
+
+.userName {
+  margin-left: 12px; /* ml-3 */
+}
+
+.userEmail {
+  margin-left: 12px; /* ml-3 */
+  color: #9ca3af; /* text-gray-400 */
+}

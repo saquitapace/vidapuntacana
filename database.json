@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "driver": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "database": "vivopuntacana",
+    "user": "vivo_user",
+    "password": "vivo_password"
+  },
+  "test": {
+    "driver": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "database": "vivopuntacana_test",
+    "user": "vivo_user",
+    "password": "vivo_password"
+  },
+  "prod": {
+    "driver": "mysql",
+    "host": "mysql-2909344d-anasdev-8ca5.h.aivencloud.com",
+    "port": 26072,
+    "database": "vivopuntacana",
+    "user": "vivo_user",
+    "password": "AVNS_6w0JdPw0TwAmo5KAf8z"
+  }
+}
