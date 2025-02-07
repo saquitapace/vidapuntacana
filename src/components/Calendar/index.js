@@ -29,7 +29,7 @@ export default function CalendarView() {
   const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
-    if (isLoaded && isSignedIn && user?.id) {
+    if (calendarViewType && targetDate) {
       dispatch(fetchEvents(calendarViewType, targetDate));
     }
   }, [dispatch, user?.id, calendarViewType, targetDate, isSignedIn]);
