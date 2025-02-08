@@ -122,13 +122,13 @@ const Index = () => {
                   </Link>
                 </div>
               </div>
-              <div className='hidden col-lg-2 col-md-4 category-column'>
+              <div className='col-lg-2 col-md-4 category-column'>
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
                       <i className='flaticon-suitcase'></i>
                     </div>
-                    <h6>Job & Feed</h6>
+                    <h6>Bars</h6>
                   </div>
                   <Link className='category-btn' href='/'>
                     <i className='ti-arrow-right'></i>
@@ -182,7 +182,7 @@ const Index = () => {
               <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
                 <div className='listing-thumbnail'>
                   <img
-                    src='assets/images/listing/listing-grid-1.jpg'
+                    src='assets/business_profile_photos/profile-photo-12345.jpg'
                     alt='Listing Image'
                   />
                   <span className='featured-btn'>Featured</span>
@@ -200,7 +200,7 @@ const Index = () => {
                 </div>
                 <div className='listing-content'>
                   <h3 className='title'>
-                    <Link href='/listing-details-1'>Food Corner</Link>
+                    <Link href='/listing-details-1'>Kat´s Corner</Link>
                   </h3>
                   <div className='ratings'>
                     <ul className='ratings ratings-three'>
@@ -235,7 +235,7 @@ const Index = () => {
                     <ul>
                       <li>
                         <span>
-                          <i className='ti-location-pin'></i>California, USA
+                          <i className='ti-location-pin'></i>Punta Cana
                         </span>
                       </li>
                       <li>
@@ -306,7 +306,7 @@ const Index = () => {
                     <ul>
                       <li>
                         <span>
-                          <i className='ti-location-pin'></i>California, USA
+                          <i className='ti-location-pin'></i>Punta Cana
                         </span>
                       </li>
                       <li>
@@ -631,7 +631,7 @@ const Index = () => {
       </section>
       {/* <!--====== End offer Section ======--> */}
       {/* <!--====== Start Features Section ======--> */}
-      <section className='features-area'>
+      <section className='features-area hidden'>
         <div className='features-wrapper-one pt-120'>
           <div className='container'>
             <div className='row'>
@@ -804,8 +804,8 @@ const Index = () => {
           <div className='row justify-content-center'>
             <div className='col-lg-8'>
               <div className='section-title text-center mb-60 wow fadeInUp'>
-                <span className='sub-title'>Featured List</span>
-                <h2>Explore Destination</h2>
+                <span className='sub-title'>Deals this week</span>
+                <h2>Deals this week and  Whats hot this week</h2>
               </div>
             </div>
           </div>
@@ -913,7 +913,7 @@ const Index = () => {
                 <span className='phone-meta'>
                   <i className='ti-tablet'></i>
                   <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  <span className='status st-close'>close</span>
+                  <span className='status st-close'>closed</span>
                 </span>
                 <div className='listing-meta'>
                   <ul>
