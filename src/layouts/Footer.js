@@ -13,8 +13,8 @@ const Footer = () => {
                   className="widget about-widget mb-40 wow fadeInUp"
                   data-wow-delay="10ms"
                 >
-                  <h4 className="widget-title">Mobile Experience</h4>
-                  <ul className="button">
+                  <h4 className="hidden widget-title">Mobile Experience</h4>
+                  <ul className="hidden button">
                     <li>
                       <a href="#" className="app-btn android-btn">
                         <div className="icon">
@@ -46,13 +46,13 @@ const Footer = () => {
                           <i className="ti-facebook"></i>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
+                      <li className="hidden">
+                      <a href="#">
                           <i className="ti-twitter-alt"></i>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
+                      <li className="hidden">
+                      <a href="#">
                           <i className="ti-pinterest"></i>
                         </a>
                       </li>
@@ -109,19 +109,19 @@ const Footer = () => {
                     <li>
                       <a href="#">Restaurant</a>
                     </li>
-                    <li>
+                    <li className="hidden">
                       <a href="#">Museum</a>
                     </li>
                     <li>
-                      <a href="#">Party Center</a>
+                      <a href="#">Club Zone</a>
                     </li>
-                    <li>
+                    <li className="hidden">
                       <a href="#">Game Field</a>
                     </li>
                     <li>
                       <a href="#">Shopping</a>
                     </li>
-                    <li>
+                    <li className="hidden">
                       <a href="#">Art & Gallery</a>
                     </li>
                   </ul>
@@ -134,7 +134,7 @@ const Footer = () => {
                 >
                   <h4 className="widget-title">Newsletter</h4>
                   <p>
-                    Caoreet massa torto pon interdum sestibulum suscipit duis.
+                    Sign up for the latest in Punta Cana
                   </p>
                   <form onSubmit={(e) => e.preventDefault()}>
                     <div className="form_group">
@@ -161,16 +161,16 @@ const Footer = () => {
               <div className="col-lg-6">
                 <div className="copyright-text">
                   <p>
-                    Copyright &copy; 2021. All rights reserved to{" "}
-                    <span>Webtend</span>
+                    Copyright &copy; 2025. All rights reserved to{" "}
+                    <span>App Haus Group LLC</span>
                   </p>
                 </div>
               </div>
-              <div className="col-lg-6">
+              <div className="col-lg-6 hidden">
                 <div className="copyright-link">
                   <ul>
                     <li>
-                      <a href="#">Terms & Conditins</a>
+                      <a href="#">Terms & Conditions</a>
                     </li>
                     <li>
                       <a href="#">Services</a>

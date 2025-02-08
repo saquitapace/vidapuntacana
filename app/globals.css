@@ -28,6 +28,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.hidden {
+  display: none !important;
+}
+ 
 .slick-slide {
   padding-left: 15px;
   padding-right: 15px;

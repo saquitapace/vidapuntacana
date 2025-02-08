@@ -11,7 +11,7 @@
     "create-migration": "npx db-migrate create"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.0.0",
+    "@clerk/nextjs": "^5.7.5",
     "@formatjs/intl-localematcher": "^0.5.10",
     "@hookform/resolvers": "^3.10.0",
     "@reduxjs/toolkit": "^2.0.1",

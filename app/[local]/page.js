@@ -64,12 +64,12 @@ const Index = () => {
                       </div>
                     </form>
                   </div>
-                  <p className='tags'>
+                  <p className='tags hidden'>
                     <span>Popular:</span>
                     <a href='#'>Saloon</a>,<a href='#'>Restaurant</a>,
                     <a href='#'>Game</a>,<a href='#'>Counter</a>,
                     <a href='#'>Train Station</a>,<a href='#'>Parking</a>,
-                    <a href='#'>Shooping</a>
+                    <a href='#'>Shopping</a>
                   </p>
                 </div>
               </div>
@@ -109,7 +109,7 @@ const Index = () => {
                   </Link>
                 </div>
               </div>
-              <div className='col-lg-2 col-md-4 category-column'>
+              <div className='hidden col-lg-2 col-md-4 category-column'>
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
@@ -122,7 +122,7 @@ const Index = () => {
                   </Link>
                 </div>
               </div>
-              <div className='col-lg-2 col-md-4 category-column'>
+              <div className='hidden col-lg-2 col-md-4 category-column'>
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
@@ -141,7 +141,7 @@ const Index = () => {
                     <div className='icon'>
                       <i className='flaticon-gift-box'></i>
                     </div>
-                    <h6>Party Center</h6>
+                    <h6>Club Zone</h6>
                   </div>
                   <Link className='category-btn' href='/'>
                     <i className='ti-arrow-right'></i>
@@ -172,8 +172,8 @@ const Index = () => {
           <div className='row justify-content-center'>
             <div className='col-lg-8'>
               <div className='section-title text-center mb-75 wow fadeInUp'>
-                <span className='sub-title'>Featured List</span>
-                <h2>Explore Destination</h2>
+                <span className='sub-title hidden'>Featured List</span>
+                <h2>Featured Listings</h2>
               </div>
             </div>
           </div>
@@ -609,7 +609,7 @@ const Index = () => {
       </section>
       {/* <!--====== End Listing Section ======--> */}
       {/* <!--====== Start offer Section ======--> */}
-      <section className='cta-area'>
+      <section className='cta-area hidden'>
         <div
           className='cta-wrapper-one bg_cover'
           style={{ backgroundImage: `url(assets/images/bg/cta-bg-1.jpg)` }}
@@ -709,7 +709,7 @@ const Index = () => {
       </section>
       {/* <!--====== End Features Section ======--> */}
       {/* <!--====== Start Place Section ======--> */}
-      <section className='place-area pt-115 pb-110'>
+      <section className='place-area pt-115 pb-110 hidden'>
         <div className='container-fluid place-container'>
           <div className='row justify-content-center'>
             <div className='col-lg-8'>
@@ -1106,7 +1106,7 @@ const Index = () => {
       </section>
       {/* <!--====== End Intro Video Section ======--> */}
       {/* <!--====== Start Newsletter Section ======--> */}
-      <section className='newsletter-area pt-115'>
+      <section className='newsletter-area pt-115 hidden'>
         <div className='container'>
           <div
             className='newsletter-wrapper newsletter-wrapper-one bg_cover'

@@ -22,23 +22,23 @@ const Header1 = () => {
                       <i className='ti-facebook'></i>
                     </a>
                   </li>
-                  <li>
+                  <li className='hidden'>
                     <a href='#'>
                       <i className='ti-twitter-alt'></i>
                     </a>
                   </li>
-                  <li>
+                  <li className='hidden'>
                     <a href='#'>
                       <i className='ti-pinterest'></i>
                     </a>
                   </li>
-                  <li>
+                  <li className='hidden'>
                     <a href='#'>
                       <i className='ti-dribbble'></i>
                     </a>
                   </li>
                   <li>
-                    <a href='#'>
+                    <a href='vidapuntacana.com'>
                       <i className='ti-instagram'></i>
                     </a>
                   </li>
@@ -48,7 +48,7 @@ const Header1 = () => {
             <div className='col-md-4'>
               <div className='top-content text-center'>
                 <p>
-                  {t('claim_business')} <Link href='/'>{t('here')}</Link>
+                  {t('claim_business')} <Link href='http://localhost:3000/contact'>{t('here')}</Link>
                 </p>
               </div>
             </div>
@@ -61,7 +61,7 @@ const Header1 = () => {
                   <li>
                     <LanguageSelector />
                   </li>
-                  <li>
+                  <li className='hidden'>
                     <Link href='/'>
                       <i className='ti-search'></i>
                       <span>{t('search_here')}</span>
@@ -79,7 +79,7 @@ const Header1 = () => {
             <div className='row'>
               <div className='col-lg-2 col-5'>
                 <div className='site-branding'>
-                  <Link className='brand-logo' href='/'>
+                  <Link className='brand-logo' href='http://localhost:3000/en'>
                     <img
                       src='/assets/images/logo/logo-1.png'
                       alt='Brand Logo'
@@ -94,7 +94,7 @@ const Header1 = () => {
                   </div>
                   <nav className='main-menu'>
                     <ul>
-                      <li className='menu-item has-children'>
+                      <li className='hidden menu-item has-children'>
                         <Link href='/'>{t('menu_home')}</Link>
                         <ul className='sub-menu'>
                           <Home />
