@@ -158,6 +158,10 @@ const ListingGrid = () => {
                             <i className="ti-view-list-alt" />
                           </Link>
                         </li>
+                        <li>
+                          <Link href="/listing-list">MAP
+                          </Link>
+                        </li>
                       </ul>
                     </div>
                   </div>

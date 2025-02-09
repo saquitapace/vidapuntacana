@@ -33,19 +33,19 @@ export const About = withLocale(({ locale }) => (
 
 export const Listing = withLocale(({ locale }) => (
   <Fragment>
-    <li className="menu-item">
+    <li className="menu-item hidden">
       <Link href={`/${locale}/listing-list`}>Listing List</Link>
     </li>
     <li className="menu-item">
       <Link href={`/${locale}/listing-grid`}>Listing Grid</Link>
     </li>
-    <li className="menu-item">
+    <li className="menu-item hidden">
       <Link href={`/${locale}/listing-map`}>Listing Map Grid</Link>
     </li>
     <li className="menu-item">
       <Link href={`/${locale}/listing-details-1`}>Listing Details One</Link>
     </li>
-    <li className="menu-item">
+    <li className="menu-item hidden">
       <Link href={`/${locale}/listing-details-2`}>Listing Details Two</Link>
     </li>
   </Fragment>
@@ -56,10 +56,10 @@ export const Pages = withLocale(({ locale }) => (
     <li className="menu-item">
       <Link href={`/${locale}/add-listing`}>Add Listing</Link>
     </li>
-    <li>
+    <li className="hidden">
       <Link href={`/${locale}/products`}>Our Products</Link>
     </li>
-    <li>
+    <li className="hidden">
       <Link href={`/${locale}/product-details`}>Products Details</Link>
     </li>
     <li className="menu-item">

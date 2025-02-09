@@ -35,7 +35,7 @@ const Index = () => {
                             <input
                               type='search'
                               className='form_control'
-                              placeholder='Search By Category'
+                              placeholder='Search ex. Karoke, Clubs, etc'
                               name='search'
                               required
                             />
@@ -87,11 +87,11 @@ const Index = () => {
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
-                      <i className='flaticon-government'></i>
+                      <i className='flaticon-government hidden'></i>
                     </div>
-                    <h6>Museums</h6>
+                    <h6>Stays</h6>
                   </div>
-                  <Link className='category-btn' href='/'>
+                  <Link className='category-btn' href='/listing-map?cat=museums'>
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -102,22 +102,9 @@ const Index = () => {
                     <div className='icon'>
                       <i className='flaticon-serving-dish'></i>
                     </div>
-                    <h6>Restaurant</h6>
+                    <h6>Restaurants</h6>
                   </div>
-                  <Link className='category-btn' href='/'>
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='hidden col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-game-controller'></i>
-                    </div>
-                    <h6>Game Field</h6>
-                  </div>
-                  <Link className='category-btn' href='/'>
+                  <Link className='category-btn' href='/listing-map?cat=restaurants'>
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -126,11 +113,24 @@ const Index = () => {
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
-                      <i className='flaticon-suitcase'></i>
+                      <i className='flaticon-game-controller hidden'></i>
+                    </div>
+                    <h6>Shopping</h6>
+                  </div>
+                  <Link className='category-btn' href='/listing-map?cat=game'>
+                    <i className='ti-arrow-right'></i>
+                  </Link>
+                </div>
+              </div>
+              <div className='col-lg-2 col-md-4 category-column'>
+                <div className='category-item category-item-one'>
+                  <div className='info text-center'>
+                    <div className='icon'>
+                      <i className='flaticon-suitcase hidden'></i>
                     </div>
                     <h6>Bars</h6>
                   </div>
-                  <Link className='category-btn' href='/'>
+                  <Link className='category-btn' href='/listing-map?cat=bars'>
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -139,11 +139,11 @@ const Index = () => {
                 <div className='category-item category-item-one'>
                   <div className='info text-center'>
                     <div className='icon'>
-                      <i className='flaticon-gift-box'></i>
+                      <i className='flaticon-gift-box hidden'></i>
                     </div>
-                    <h6>Club Zone</h6>
+                    <h6>Night Clubs</h6>
                   </div>
-                  <Link className='category-btn' href='/'>
+                  <Link className='category-btn' href='/listing-map?cat=clubs'>
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -154,9 +154,9 @@ const Index = () => {
                     <div className='icon'>
                       <i className='flaticon-dumbbell'></i>
                     </div>
-                    <h6>Fitness Zone</h6>
+                    <h6>Fitness</h6>
                   </div>
-                  <Link className='category-btn' href='/'>
+                  <Link className='category-btn' href='/listing-map?cat=fitness'>
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -174,6 +174,7 @@ const Index = () => {
               <div className='section-title text-center mb-75 wow fadeInUp'>
                 <span className='sub-title hidden'>Featured List</span>
                 <h2>Featured Listings</h2>
+                   <a href="/listing-grid?filter=all">view all</a> 
               </div>
             </div>
           </div>
@@ -806,6 +807,8 @@ const Index = () => {
               <div className='section-title text-center mb-60 wow fadeInUp'>
                 <span className='sub-title'>Deals this week</span>
                 <h2>Deals this week and  Whats hot this week</h2>
+                <a href="/listing-grid?filter=deals">view all</a> 
+
               </div>
             </div>
           </div>
