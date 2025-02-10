@@ -1,5 +1,6 @@
 'use client';
 import CalendarPreview from '@/src/components/CalendarPreview/index';
+import { FeaturedListings } from '@/src/components/Listing/FeaturedListings';
 import VideoPopup from '@/src/components/VideoPopup';
 import Layout from '@/src/layouts/Layout';
 import {
@@ -91,7 +92,10 @@ const Index = () => {
                     </div>
                     <h6>Stays</h6>
                   </div>
-                  <Link className='category-btn' href='/listing-map?cat=museums'>
+                  <Link
+                    className='category-btn'
+                    href='/listing-map?cat=museums'
+                  >
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -104,7 +108,10 @@ const Index = () => {
                     </div>
                     <h6>Restaurants</h6>
                   </div>
-                  <Link className='category-btn' href='/listing-map?cat=restaurants'>
+                  <Link
+                    className='category-btn'
+                    href='/listing-map?cat=restaurants'
+                  >
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -156,7 +163,10 @@ const Index = () => {
                     </div>
                     <h6>Fitness</h6>
                   </div>
-                  <Link className='category-btn' href='/listing-map?cat=fitness'>
+                  <Link
+                    className='category-btn'
+                    href='/listing-map?cat=fitness'
+                  >
                     <i className='ti-arrow-right'></i>
                   </Link>
                 </div>
@@ -174,438 +184,16 @@ const Index = () => {
               <div className='section-title text-center mb-75 wow fadeInUp'>
                 <span className='sub-title hidden'>Featured List</span>
                 <h2>Featured Listings</h2>
-                   <a href="/listing-grid?filter=all">view all</a> 
+                <a href='/listing-grid?filter=all'>view all</a>
               </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/business_profile_photos/profile-photo-12345.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Featured</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-chef'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Restaurant</h6>
-                      </div>
-                    </div>
-                    <span className='status st-open'>Open</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>Kat´s Corner</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>Punta Cana
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/images/listing/listing-grid-2.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Featured</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-government'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Museums</h6>
-                      </div>
-                    </div>
-                    <span className='status st-open'>Open</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>Central History</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>Punta Cana
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/images/listing/listing-grid-3.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Fitness</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-dumbbell'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Fitness</h6>
-                      </div>
-                    </div>
-                    <span className='status st-close'>Close</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>Xtream Gym</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>California, USA
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/images/listing/listing-grid-4.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Featured</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-suitcase'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Job & Feed</h6>
-                      </div>
-                    </div>
-                    <span className='status st-open'>Open</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>Mega Agency</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>California, USA
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/images/listing/listing-grid-5.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Featured</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-shopping'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Central Plaza</h6>
-                      </div>
-                    </div>
-                    <span className='status st-close'>Close</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>Central Plaza</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>California, USA
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12'>
-              <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
-                <div className='listing-thumbnail'>
-                  <img
-                    src='assets/images/listing/listing-grid-6.jpg'
-                    alt='Listing Image'
-                  />
-                  <span className='featured-btn'>Featured</span>
-                  <div className='thumbnail-meta d-flex justify-content-between align-items-center'>
-                    <div className='meta-icon-title d-flex align-items-center'>
-                      <div className='icon'>
-                        <i className='flaticon-color-palette'></i>
-                      </div>
-                      <div className='title'>
-                        <h6>Art Gallery</h6>
-                      </div>
-                    </div>
-                    <span className='status st-open'>Open</span>
-                  </div>
-                </div>
-                <div className='listing-content'>
-                  <h3 className='title'>
-                    <Link href='/listing-details-1'>National Art</Link>
-                  </h3>
-                  <div className='ratings'>
-                    <ul className='ratings ratings-three'>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li className='star'>
-                        <i className='flaticon-star-1'></i>
-                      </li>
-                      <li>
-                        <span>
-                          <a href='#'>(02 Reviews)</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <span className='price'>$05.00 - $80.00</span>
-                  <span className='phone-meta'>
-                    <i className='ti-tablet'></i>
-                    <a href='tel:+982653652-05'>+98 (265) 3652 - 05</a>
-                  </span>
-                  <div className='listing-meta'>
-                    <ul>
-                      <li>
-                        <span>
-                          <i className='ti-location-pin'></i>California, USA
-                        </span>
-                      </li>
-                      <li>
-                        <span>
-                          <i className='ti-heart'></i>
-                          <a href='#'>Save</a>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <FeaturedListings/>
+          {/* <div className='row'>
+            {featuredListings.map((f, i) => (
+              <FeaturedListing {...f} />
+            ))}
+          </div> */}
         </div>
       </section>
       {/* <!--====== End Listing Section ======--> */}
@@ -806,9 +394,8 @@ const Index = () => {
             <div className='col-lg-8'>
               <div className='section-title text-center mb-60 wow fadeInUp'>
                 <span className='sub-title'>Deals this week</span>
-                <h2>Deals this week and  Whats hot this week</h2>
-                <a href="/listing-grid?filter=deals">view all</a> 
-
+                <h2>Deals this week and Whats hot this week</h2>
+                <a href='/listing-grid?filter=deals'>view all</a>
               </div>
             </div>
           </div>
@@ -1103,8 +690,6 @@ const Index = () => {
         </div>
       </section>
       <section className='place-area flex items-center justify-center w-full pt-115'>
-        
-          
         <CalendarPreview />
       </section>
       {/* <!--====== End Intro Video Section ======--> */}
