@@ -1,0 +1,60 @@
+/* Pagination Styles */
+.pagination-wrap {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.pagination-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.pagination-list li button {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: #fff;
+  color: #555;
+  font-size: 15px;
+  border: 1px solid #e5e5e5;
+  transition: all 0.3s ease-out 0s;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pagination-list li button:hover,
+.pagination-list li button.active {
+  background-color: #ff344f;
+  color: #fff;
+  border-color: #ff344f;
+}
+
+.pagination-list li button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Style for the ellipsis */
+.pagination-list li:not(:has(button)) {
+  color: #555;
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+/* Icon buttons (prev/next) specific styles */
+.pagination-list li button.icon-btn {
+  font-size: 20px;
+}
+
+/* Optional: Add hover effect */
+.pagination-list li button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+} 

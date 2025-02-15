@@ -76,7 +76,10 @@ export default clerkMiddleware((auth, req) => {
   // }
 
   // // Handle profile completion
-  const isProfileCompleted = sessionClaims?.metadata?.profileCompleted;
+  console.log('session claims ', sessionClaims);
+  const searchParams = url.searchParams;
+  const justCompletedProfile = searchParams.get('profileCompleted') === 'true';
+  const isProfileCompleted = sessionClaims?.metadata?.profileCompleted || justCompletedProfile;
   if (
     userId &&
     !isProfileCompleted &&

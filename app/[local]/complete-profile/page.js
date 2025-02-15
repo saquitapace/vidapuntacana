@@ -111,10 +111,13 @@ export default function OnboardingPage() {
 
       const userData = userFields[userType];
       userData['profileCompleted'] = true;
-      const { err, data: responseData } = await createOrUpdateUser(userData);
+      const { err } = await createOrUpdateUser(userData);
       if (!err) {
         setIsSubmitted(true);
-        router.push('/en');
+        console.log('here___2');
+        // window.location.reload();
+        window.location = '/en?profileCompleted=true';
+        // throw router.push('/en?profileCompleted=true');
       }
       return { err };
     } catch (error) {

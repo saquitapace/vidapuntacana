@@ -7,6 +7,10 @@ const ListingItem = ({ listing }) => {
       <div className="listing-thumbnail">
         <div className={styles['image-wrapper']}>
           <img
+          style={{
+            width : '370px',
+            height: '370px'
+          }}
             src={Array.isArray(listing?.photos) && listing?.photos?.length > 0 
               ? listing?.photos[0] 
               : "/assets/business_profile_photos/profile-photo-12345.jpg"}

@@ -54,6 +54,8 @@ export function Calendar({ events = [] }) {
 
         {[...Array(daysInMonth)].map((_, index) => {
           const day = index + 1;
+          const targetDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+          const targetDateStr = targetDate.toISOString().split('T')[0];
           const dayEvents = getEventsForDate(events, currentDate, day);
           return <CalendarDay key={day} day={day} events={dayEvents} />;
         })}

@@ -36,7 +36,7 @@ const EventDetailModal = ({ selectedEvent, onCloseModal }) => {
         top: selectedEvent.top,
         left: selectedEvent.left,
       }}
-      className='absolute z-50 p-4 bg-white rounded-lg shadow-lg min-w-[280px] max-w-sm'
+      className='absolute z-50 p-4 bg-white rounded-lg shadow-lg min-w-[280px] max-w-sm ml-[-10rem]'
     >
       {/* Modal Header */}
       <div className='flex justify-between items-center mb-4'>

@@ -2,6 +2,7 @@
 
 import { query } from '@/src/lib/db';
 import { auth, clerkClient, currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 function snakeToCamel(snakeCaseString) {
   const t = snakeCaseString.replace(/(_\w)/g, (matches) =>
@@ -72,6 +73,7 @@ export async function createOrUpdateUser(userData) {
           role: dataToSave?.role ?? 'user',
         },
       });
+      return redirect('/en?profileCompleted=true','replace');
       return existingUser;
     } else {
       // Insert new user - only insert fields that have values

@@ -12,6 +12,10 @@ const FeaturedListing = ({ photos, title, phone, status, address, primaryCategor
               src={Array.isArray(photos) && photos.length > 0 ? photos[0] : '/assets/business_profile_photos/profile-photo-12345.jpg'}
               alt='Listing Image'
               className={styles['listing-image']}
+              style={{
+                width : '330px',
+                height : '330px'
+              }}
             />
           </div>
           <span className='featured-btn'>Featured</span>

@@ -6,33 +6,68 @@ import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
 import ListingItem from "@/src/components/ListingItem";
 import ListingSkeleton from "@/src/components/ListingSkeleton";
+import './styles.css';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const ListingGrid = () => {
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 6,
+    total: 0,
+    totalPages: 0
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   useEffect(() => {
     fetchListings();
-  }, [page]);
+  }, [pagination.page, debouncedSearchTerm]);
 
   const fetchListings = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/listings?page=${page}&limit=${limit}`);
+      const response = await fetch(
+        `/api/listings?page=${pagination.page}&limit=${pagination.limit}&search=${debouncedSearchTerm}`
+      );
       if (!response.ok) {
         throw new Error('Failed to fetch listings');
       }
       const data = await response.json();
-      setListings(data);
+      setListings(data.listings);
+      setPagination(prev => ({
+        ...prev,
+        total: data.pagination.total,
+        totalPages: data.pagination.totalPages
+      }));
     } catch (err) {
       setError(err.message);
       console.error('Error fetching listings:', err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      setPagination(prev => ({ ...prev, page: newPage }));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPagination(prev => ({ ...prev, page: 1 }));
   };
 
   return (
@@ -45,7 +80,7 @@ const ListingGrid = () => {
               <div className="sidebar-widget-area">
                 <div className="widget search-listing-widget mb-30 wow fadeInUp">
                   <h4 className="widget-title">Filter Search</h4>
-                  <form onSubmit={(e) => e.preventDefault()}>
+                  <form onSubmit={handleSearch}>
                     <div className="search-form">
                       <div className="form_group">
                         <input
@@ -53,6 +88,8 @@ const ListingGrid = () => {
                           className="form_control"
                           placeholder="Search keyword"
                           name="search"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
                           required=""
                         />
                         <i className="ti-search" />
@@ -208,21 +245,77 @@ const ListingGrid = () => {
                   )}
                   
                   {isLoading ? (
-                    // Show skeletons while loading
                     Array(6).fill(0).map((_, index) => (
                       <div key={index} className="col-md-6 col-sm-12">
                         <ListingSkeleton />
                       </div>
                     ))
                   ) : (
-                    // Show actual listings
                     listings.map((listing, index) => (
-                      <div key={index} className="col-md-6 col-sm-12">
+                      <div key={listing.id} className="col-md-6 col-sm-12">
                         <ListingItem listing={listing} />
                       </div>
                     ))
                   )}
                 </div>
+
+                {/* Pagination Controls */}
+                {!isLoading && pagination.totalPages > 1 && (
+                  <div className="pagination-wrap mt-40">
+                    <ul className="pagination-list">
+                      <li>
+                        <button
+                          onClick={() => handlePageChange(pagination.page - 1)}
+                          disabled={pagination.page === 1}
+                          className="main-btn "
+                        >
+                          {/* <i className="ti-angle-left" /> */}
+                          <FaChevronLeft/>
+                        </button>
+                      </li>
+
+                      {[...Array(pagination.totalPages)].map((_, index) => {
+                        const pageNum = index + 1;
+                        if (
+                          pageNum === 1 ||
+                          pageNum === pagination.totalPages ||
+                          (pageNum >= pagination.page - 1 && pageNum <= pagination.page + 1)
+                        ) {
+                          return (
+                            <li key={pageNum}>
+                              <button
+                                onClick={() => handlePageChange(pageNum)}
+                                className={`main-btn ${
+                                  pagination.page === pageNum ? 'active' : ''
+                                }`}
+                              >
+                                {pageNum}
+                              </button>
+                            </li>
+                          );
+                        }
+                        if (
+                          pageNum === pagination.page - 2 ||
+                          pageNum === pagination.page + 2
+                        ) {
+                          return <li key={pageNum}>...</li>;
+                        }
+                        return null;
+                      })}
+
+                      <li>
+                        <button
+                          onClick={() => handlePageChange(pagination.page + 1)}
+                          disabled={pagination.page === pagination.totalPages}
+                          className="main-btn"
+                        >
+                          <FaChevronRight/>
+                          {/* <i className="ti-angle-right" /> */}
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -50,9 +50,17 @@ export const getPagination = (totalNumber, sort) => {
 export const niceSelect = () => {
   const select = document.querySelectorAll('select');
   select.forEach((element) => {
-    if (element.classList.contains('not-nice-select')) {
+    if (element.classList.contains('not-nice-select') || element.dataset.niceSelectProcessed) {
       return;
     }
+    
+    element.dataset.niceSelectProcessed = 'true';
+    
+    const nextSibling = element.nextElementSibling;
+    if (nextSibling && nextSibling.classList.contains('nice-select')) {
+      nextSibling.remove();
+    }
+
     let option = element.querySelectorAll('option');
 
     function insertAfter(referenceNode, newNode) {

@@ -9,8 +9,16 @@ export const createEvent = async (eventData) => {
     return { err: 'Unauthorized', data: null };
   }
 
-  const { title, description, start_date, end_date, type, status, location, theme_color } =
-    eventData;
+  const {
+    title,
+    description,
+    start_date,
+    end_date,
+    type,
+    status,
+    location,
+    theme_color,
+  } = eventData;
 
   if (
     !title ||
@@ -24,9 +32,27 @@ export const createEvent = async (eventData) => {
     return { err: 'All fields are required', data: null };
   }
 
-  const fields = ['user_id', 'title', 'description', 'location', 'start_date', 'end_date', 'type', 'status'];
-  const values = [userId, title, description, location, new Date(start_date), new Date(end_date), type, status];
-  
+  const fields = [
+    'user_id',
+    'title',
+    'description',
+    'location',
+    'start_date',
+    'end_date',
+    'type',
+    'status',
+  ];
+  const values = [
+    userId,
+    title,
+    description,
+    location,
+    new Date(start_date),
+    new Date(end_date),
+    type,
+    status,
+  ];
+
   if (theme_color) {
     fields.push('theme_color');
     values.push(theme_color);
@@ -44,7 +70,7 @@ export const createEvent = async (eventData) => {
       if (!clerkUser) {
         return { err: 'User not found', data: null };
       }
-      
+
       await createOrUpdateUser({
         firstName: clerkUser.firstName,
         lastName: clerkUser.lastName,
@@ -64,11 +90,11 @@ export const createEvent = async (eventData) => {
   }
 };
 
-
 export const getPreviewEvents = async () => {
   const sql = 'SELECT id,title,start_date,end_Date,theme_color FROM events';
   try {
     const events = await query(sql);
+    console.log('__events', events);
     return {
       err: null,
       data: events,

@@ -523,17 +523,21 @@ export const getFirstDayOfMonth = (date) => {
 };
 
 export const getEventsForDate = (events, currentDate, day) => {
+  // Create date object for the day we're checking
   const targetDate = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth(),
     day
   );
-  const targetDateStart = startOfDay(targetDate);
-  const targetDateEnd = endOfDay(targetDate);
-
+  
+  // Format target date to YYYY-MM-DD for comparison
+  const targetDateStr = targetDate.toISOString().split('T')[0];
+  
   return events?.filter((event) => {
-    const eventStart = new Date(event?.start_date || event?.date);
-    const eventEnd = new Date(event?.end_date || event?.date);
-    return eventStart <= targetDateEnd && eventEnd >= targetDateStart;
+    // Get the date string from event (handling both date and start_date cases)
+    const eventDateStr = (event?.start_date || event?.date)?.split('T')[0];
+    
+    // Simple string comparison of dates
+    return eventDateStr === targetDateStr;
   }) ?? [];
 };

@@ -45,7 +45,7 @@ export async function GET(req) {
 
     const sql = `
       SELECT e.*, u.first_name, u.last_name FROM events e
-      JOIN users u ON e.user_id = u.clerk_id
+      LEFT JOIN users u ON e.user_id = u.clerk_id
       WHERE (e.start_date >=? and e.end_date <= ?) 
       ORDER BY e.start_date ASC
     `;
