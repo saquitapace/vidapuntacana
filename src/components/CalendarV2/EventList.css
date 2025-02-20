@@ -1,0 +1,133 @@
+.event-list {
+  background-color: #f8fafc;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.event-list-day {
+  margin-bottom: 1.5rem;
+}
+
+.event-list-date {
+  position: sticky;
+  top: 0;
+  background-color: #f8fafc;
+  padding: 1rem;
+  z-index: 10;
+}
+
+.date-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.day-name {
+  font-size: 0.875rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.date-number {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.event-list-items {
+  padding: 0 1rem;
+}
+
+.event-list-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-list-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.event-marker {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  transition: opacity 0.2s ease;
+}
+
+.event-list-item:hover .event-marker {
+  opacity: 0.2;
+}
+
+.event-time {
+  font-size: 0.875rem;
+  color: #64748b;
+  width: 80px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.event-details {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.event-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.event-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  position: relative;
+  z-index: 1;
+}
+
+.event-location svg {
+  flex-shrink: 0;
+}
+
+.event-list-empty {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-state svg {
+  margin: 0 auto 1rem;
+  color: #94a3b8;
+}
+
+.empty-state h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #64748b;
+} 

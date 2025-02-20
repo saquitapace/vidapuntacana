@@ -36,8 +36,16 @@ export async function GET(req) {
     }
 
     if (search) {
-      whereConditions.push('(l.title LIKE ? OR l.address LIKE ? OR l.phone LIKE ?)');
-      queryParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+      const sanitizedSearch = search.trim().toLowerCase();
+      if (sanitizedSearch) {
+        whereConditions.push(`(
+          LOWER(l.title) LIKE ? OR 
+          LOWER(l.address) LIKE ? OR 
+          LOWER(l.phone) LIKE ?
+        )`);
+        const searchTerm = `%${sanitizedSearch}%`;
+        queryParams.push(searchTerm, searchTerm, searchTerm);
+      }
     }
 
     if (whereConditions.length > 0) {

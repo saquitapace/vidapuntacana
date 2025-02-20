@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { About, Blog, Contact, Home, Listing, Pages } from './Menu';
 import UserPrfoile from '../components/UserPrfoile';
 
-const MobileMenu = () => {
+const MobileMenu = ({hideExtra}) => {
   const [toggle, setToggle] = useState(false);
   const [activeMenu, setActiveMenu] = useState('');
   const activeMenuSet = (value) =>
@@ -15,7 +15,7 @@ const MobileMenu = () => {
   return (
     <header className='header-area header-area-one d-xl-none'>
       <div className='header-top'>
-        <div className='container-fluid'>
+      {!hideExtra &&   <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-4'>
               <div className='top-social'>
@@ -84,7 +84,7 @@ const MobileMenu = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
       <div className='header-navigation sticky breakpoint-on'>
         <div className='container-fluid'>

@@ -4,13 +4,13 @@ import { useTranslations } from 'next-intl';
 import { Contact, Home, Listing, Pages } from '../Menu';
 import LanguageSelector from '@/src/components/LanguageSelector';
 
-const Header1 = () => {
+const Header1 = ({ hideExtra = false }) => {
   const t = useTranslations('Navigation');
   return (
     <header className='header-area header-area-one d-none d-xl-block'>
       <div className='header-top'>
         <div className='container-fluid'>
-          <div className='row'>
+          {!hideExtra && <div className='row'>
             <div className='col-md-4'>
               <div className='top-social'>
                 <ul className='social-link'>
@@ -70,7 +70,8 @@ const Header1 = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> }
+          
         </div>
       </div>
       <div className='header-navigation'>
@@ -117,11 +118,12 @@ const Header1 = () => {
                       </li>
 
                       <Contact />
-                      <li className='nav-btn'>
+                      {!hideExtra && <li className='nav-btn'>
                         <Link className='main-btn icon-btn' href='/add-listing'>
                           {t('add_listing_btn')}
                         </Link>
-                      </li>
+                      </li>}
+                      
                     </ul>
                   </nav>
                 </div>
@@ -130,11 +132,12 @@ const Header1 = () => {
                 <div className='header-right-nav'>
                   <ul className='d-flex align-items-center'>
                     <UserPrfoile />
-                    <li className='hero-nav-btn'>
+
+                    {!hideExtra && <li className='hero-nav-btn'>
                       <Link className='main-btn icon-btn' href='/add-listing'>
                         {t('add_listing_btn')}
                       </Link>
-                    </li>
+                    </li>}
                     <li className='nav-toggle-btn'>
                       <div className='navbar-toggler'>
                         <span></span>

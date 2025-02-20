@@ -1,11 +1,13 @@
 import Link from "next/link";
 import React from "react";
 
-const Footer = () => {
-  return (
+const Footer = ({ hideExtra = false }) => {
+  return (  
     <footer className="footer-area">
-      <div className="footer-wrapper-one dark-black pt-90">
-        <div className="footer-widget pb-60">
+      <div className="footer-wrapper-one dark-black pt-90"
+      style={hideExtra ? {marginBlockStart : '20px'} : {}}  
+      >
+    {!hideExtra &&     <div className="footer-widget pb-60">
           <div className="container">
             <div className="row">
               <div className="col-lg-4 col-md-6 col-sm-12">
@@ -154,7 +156,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
         <div className="copyright-area">
           <div className="container">
             <div className="row align-items-center">

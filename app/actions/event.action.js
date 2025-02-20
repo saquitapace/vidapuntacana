@@ -103,3 +103,26 @@ export const getPreviewEvents = async () => {
     return { err: 'Something went wrong', data: null };
   }
 };
+
+export const getAllEvents = async () => {
+  const sql = `SELECT e.*, u.first_name, u.last_name FROM events e
+      LEFT JOIN users u ON e.user_id = u.clerk_id`;
+      const events = await query(sql);
+      return  events.map((e) => ({
+        id: e.id,
+        startDate: e.start_date,
+        endDate: e.end_date,
+        title: e.title,
+        description: e.description,
+        type: e.type,
+        status: e.status,
+        location: e.location,
+        themeColor: e?.theme_color,
+        eventCreator: {
+          firstName: e?.first_name,
+          lastName: e?.last_name,
+          displayName: e?.first_name + ' ' + e?.last_name,
+        },
+      }))
+
+}

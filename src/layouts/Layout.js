@@ -7,7 +7,7 @@ import Header from "./headers/Header";
 import MobileMenu from "./MobileMenu";
 import ScrollTop from "./ScrollTop";
 
-const Layout = ({ children, header }) => {
+const Layout = ({ children, header, hideExtra }) => {
   useEffect(() => {
     animation();
     niceSelect();
@@ -18,9 +18,9 @@ const Layout = ({ children, header }) => {
   return (
     <Fragment>
       <ImageView />
-      <MobileMenu />
-      <Header header={header} />
-      {children} <Footer />
+      <MobileMenu hideExtra={hideExtra}/>
+      <Header header={header} hideExtra={hideExtra} />
+      {children} <Footer hideExtra={hideExtra}/>
       <ScrollTop />
     </Fragment>
   );

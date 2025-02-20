@@ -36,6 +36,15 @@ export const colorLookup = {
   [ThemeColorTypes.PURPLE]: 'bg-purple-500',
   [ThemeColorTypes.BROWN]: 'bg-brown1-500',
 };
+export const colorLookup2 = {
+  [ThemeColorTypes.RED]: '#EF4444',   // Tailwind bg-red-500
+  [ThemeColorTypes.GREEN]: '#22C55E', // Tailwind bg-green-500
+  [ThemeColorTypes.GOLD]: '#EAB308',  // Approximate gold3-500
+  [ThemeColorTypes.BLUE]: '#3B82F6',  // Tailwind bg-blue-500
+  [ThemeColorTypes.CYAN]: '#06B6D4',  // Approximate cyan7-500
+  [ThemeColorTypes.PURPLE]: '#A855F7',// Tailwind bg-purple-500
+  [ThemeColorTypes.BROWN]: '#8B5A2B', // Approximate brown1-500
+};
 
 export const repeatTypeStringLookup = {
   [-1]: 'Does not repeat',
