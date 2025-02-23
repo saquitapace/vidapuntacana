@@ -1,0 +1,15 @@
+.skeleton-icon {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    background-color: #e0e0e0; /* Light gray */
+    border-radius: 50%; /* Circular shape */
+    margin: 0 auto; /* Center the icon */
+  }
+  
+  .skeleton-text {
+    width: 60%; /* Adjust width as needed */
+    height: 20px; /* Adjust height as needed */
+    background-color: #e0e0e0; /* Light gray */
+    margin: 10px auto; /* Center the text */
+    border-radius: 4px; /* Rounded corners */
+  }

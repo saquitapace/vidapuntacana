@@ -1,5 +1,6 @@
 'use client';
 import CalendarPreview from '@/src/components/CalendarPreview/index';
+import Categories from '@/src/components/Categories';
 import { FeaturedListings } from '@/src/components/Listing/FeaturedListings';
 import VideoPopup from '@/src/components/VideoPopup';
 import Layout from '@/src/layouts/Layout';
@@ -9,11 +10,18 @@ import {
   PlaceSliderOne,
 } from '@/src/sliderProps';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Slider from 'react-slick';
 
 const Index = () => {
+  const router = useRouter();
   const [video, setVideo] = useState(false);
+  const handleSubmit = (e) => {
+    e?.preventDefault();
+    const searchValue = e?.target?.search?.value?.trim();
+    router.push(`/listing-grid?search=${encodeURIComponent(searchValue)}`);
+  }
   return (
     <Layout>
       {video && <VideoPopup close={setVideo} />}
@@ -26,10 +34,10 @@ const Index = () => {
                 <div className='hero-content'>
                   <h1 className='wow fadeInUp'>Dream Explore Discover</h1>
                   <h3 className='wow fadeInDown'>
-                    People Don’t Take,Trips Take People
+                    People Don't Take,Trips Take People
                   </h3>
                   <div className='hero-search-wrapper wow fadeInUp'>
-                    <form onSubmit={(e) => e.preventDefault()}>
+                    <form onSubmit={handleSubmit}>
                       <div className='row'>
                         <div className='col-lg-5 col-md-4 col-sm-12'>
                           <div className='form_group'>
@@ -43,18 +51,7 @@ const Index = () => {
                             <i className='ti-ink-pen'></i>
                           </div>
                         </div>
-                        <div className='col-lg-4 col-md-4 col-sm-12'>
-                          <div className='form_group'>
-                            <input
-                              type='text'
-                              className='form_control'
-                              placeholder='Location'
-                              name='location'
-                              required
-                            />
-                            <i className='ti-location-pin'></i>
-                          </div>
-                        </div>
+                      
                         <div className='col-lg-3 col-md-4 col-sm-12'>
                           <div className='form_group'>
                             <button className='main-btn icon-btn'>
@@ -80,101 +77,7 @@ const Index = () => {
       </section>
       {/* <!--====== End Hero Section ======--> */}
       {/* <!--====== Start Category Section ======--> */}
-      <section className='category-area'>
-        <div className='container'>
-          <div className='category-wrapper-one wow fadeInDown'>
-            <div className='row no-gutters'>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-government hidden'></i>
-                    </div>
-                    <h6>Stays</h6>
-                  </div>
-                  <Link
-                    className='category-btn'
-                    href='/listing-map?cat=museums'
-                  >
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-serving-dish'></i>
-                    </div>
-                    <h6>Restaurants</h6>
-                  </div>
-                  <Link
-                    className='category-btn'
-                    href='/listing-map?cat=restaurants'
-                  >
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-game-controller hidden'></i>
-                    </div>
-                    <h6>Shopping</h6>
-                  </div>
-                  <Link className='category-btn' href='/listing-map?cat=game'>
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-suitcase hidden'></i>
-                    </div>
-                    <h6>Bars</h6>
-                  </div>
-                  <Link className='category-btn' href='/listing-map?cat=bars'>
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-gift-box hidden'></i>
-                    </div>
-                    <h6>Night Clubs</h6>
-                  </div>
-                  <Link className='category-btn' href='/listing-map?cat=clubs'>
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-              <div className='col-lg-2 col-md-4 category-column'>
-                <div className='category-item category-item-one'>
-                  <div className='info text-center'>
-                    <div className='icon'>
-                      <i className='flaticon-dumbbell'></i>
-                    </div>
-                    <h6>Fitness</h6>
-                  </div>
-                  <Link
-                    className='category-btn'
-                    href='/listing-map?cat=fitness'
-                  >
-                    <i className='ti-arrow-right'></i>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+     <Categories/>
       {/* <!--====== End Category Section ======--> */}
       {/* <!--====== Start Listing Section ======--> */}
       <section className='listing-grid-area pt-115 pb-75'>

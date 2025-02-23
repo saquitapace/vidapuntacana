@@ -27,23 +27,89 @@ export async function GET(req) {
     `;
 
     const featuredListings = await query(sql);
-    const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
-    const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+    const formatTimeString = (timeStr) => {
+      if (!timeStr) return null;
+      const parts = timeStr.split(':');
+      return `${parts[0]}:${parts[1]}`;
+    };
+
+    const dayMapping = {
+      monday: '1',
+      tuesday: '2',
+      wednesday: '3',
+      thursday: '4',
+      friday: '5',
+      saturday: '6',
+      sunday: '7',
+    };
+
+    const currentDay = new Date()
+      .toLocaleDateString('en-US', { weekday: 'long' })
+      .toLowerCase();
+    const currentDayNumber = dayMapping[currentDay];
+
+    const currentTime = new Date().toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const timeToMinutes = (timeStr) => {
+      if (!timeStr) return 0;
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+
+    const isOpenNow = (openTime, closeTime, currentTime) => {
+      if (!openTime || !closeTime || !currentTime) return false;
+
+      let currentMinutes = timeToMinutes(currentTime);
+      let openMinutes = timeToMinutes(openTime);
+      let closeMinutes = timeToMinutes(closeTime);
+
+      if (closeMinutes < openMinutes) {
+        closeMinutes += 24 * 60; // Add 24 hours
+        if (currentMinutes < openMinutes) {
+          currentMinutes += 24 * 60;
+        }
+      }
+
+      return currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
+    };
+
+    const parseHours = (hoursString) => {
+      if (!hoursString) return {};
+
+      return hoursString.split(',').reduce((acc, timeSlot) => {
+        if (!timeSlot) return acc;
+
+        const [day, timeRange] = timeSlot.split(':', 2);
+        if (!timeRange) return acc;
+
+        const fullTimeRange = timeSlot.substring(timeSlot.indexOf(':') + 1);
+        const [openTime, closeTime] = fullTimeRange
+          .split('-')
+          .map((time) => time.trim());
+
+        acc[day] = {
+          open: formatTimeString(openTime),
+          close: formatTimeString(closeTime),
+        };
+
+        return acc;
+      }, {});
+    };
 
     return new Response(
       JSON.stringify(
-        featuredListings?.map(listing => {
-          const hours = listing.hours?.split(',').reduce((acc, timeSlot) => {
-            const [day, times] = timeSlot.split(':');
-            const [openTime, closeTime] = times.split('-');
-            acc[day] = { open: openTime, close: closeTime };
-            return acc;
-          }, {}) || {};
+        featuredListings?.map((listing) => {
+          const hours = parseHours(listing?.hours);
 
           let status = 'closed';
-          if (hours[currentDay]) {
-            const { open, close } = hours[currentDay];
-            if (currentTime >= open && currentTime <= close) {
+          if (hours[currentDayNumber]) {
+            const { open, close } = hours[currentDayNumber];
+            if (open && close && isOpenNow(open, close, currentTime)) {
               status = 'open';
             }
           }
@@ -55,9 +121,9 @@ export async function GET(req) {
             address: listing?.address,
             phone: listing?.phone,
             primaryCategory: listing?.primary_category,
-            categories: listing?.categories?.split(',') || [],
-            tags: listing?.tags?.split(',') || [],
-            photos: listing?.photos?.split(',') || [],
+            categories: listing?.categories?.split(',').filter(Boolean) || [],
+            tags: listing?.tags?.split(',').filter(Boolean) || [],
+            photos: listing?.photos?.split(',').filter(Boolean) || [],
             hours,
             status,
             socialMedia: {
@@ -66,8 +132,8 @@ export async function GET(req) {
               tripAdvisor: listing.trip_advisor,
               whatsapp: listing.whatsapp,
               google: listing.google,
-              website: listing.website
-            }
+              website: listing.website,
+            },
           };
         }) ?? []
       ),
@@ -80,11 +146,11 @@ export async function GET(req) {
     );
   } catch (error) {
     console.error('Error fetching featured listings:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { 
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
     });
   }
-} 
+}

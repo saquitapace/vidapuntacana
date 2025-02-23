@@ -94,7 +94,6 @@ export const getPreviewEvents = async () => {
   const sql = 'SELECT id,title,start_date,end_Date,theme_color FROM events';
   try {
     const events = await query(sql);
-    console.log('__events', events);
     return {
       err: null,
       data: events,

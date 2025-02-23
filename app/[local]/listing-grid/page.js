@@ -1,48 +1,87 @@
 "use client";
 import { useState, useEffect } from "react";
 import PageBanner from "@/src/components/PageBanner";
-import RangeSlider from "@/src/components/RangeSlider";
 import Layout from "@/src/layouts/Layout";
 import Link from "next/link";
 import ListingItem from "@/src/components/ListingItem";
 import ListingSkeleton from "@/src/components/ListingSkeleton";
 import './styles.css';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ListingGrid = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  
   const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  
+  
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('cat') || '');
+  
+  
   const [pagination, setPagination] = useState({
-    page: 1,
+    page: Number(searchParams.get('page')) || 1,
     limit: 6,
     total: 0,
     totalPages: 0
   });
 
+
+  const updateUrl = (updates) => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+    });
+
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500);
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+        if (!response.ok) throw new Error('Failed to fetch categories');
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        setError('Failed to load categories');
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
+    fetchCategories();
+  }, []);
 
-  useEffect(() => {
-    fetchListings();
-  }, [pagination.page, debouncedSearchTerm]);
-
-  const fetchListings = async () => {
+   const fetchListings = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `/api/listings?page=${pagination.page}&limit=${pagination.limit}&search=${debouncedSearchTerm}`
-      );
-      if (!response.ok) {
-        throw new Error('Failed to fetch listings');
-      }
+      setError(null);
+
+      const queryParams = new URLSearchParams({
+        page: pagination.page,
+        limit: pagination.limit,
+        search: searchTerm,
+        categoryId: selectedCategory
+      });
+
+      const response = await fetch(`/api/listings?${queryParams}`);
+      if (!response.ok) throw new Error('Failed to fetch listings');
+      
       const data = await response.json();
       setListings(data.listings);
       setPagination(prev => ({
@@ -51,13 +90,40 @@ const ListingGrid = () => {
         totalPages: data.pagination.totalPages
       }));
     } catch (err) {
-      setError(err.message);
+      setError('Error loading listings. Please try again.');
       console.error('Error fetching listings:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
+  
+  useEffect(() => {
+    const delayedFetch = setTimeout(() => {
+      updateUrl({
+        search: searchTerm,
+        cat: selectedCategory,
+        page: pagination.page
+      });
+      fetchListings();
+    }, 300);
+
+    return () => clearTimeout(delayedFetch);
+  }, [searchTerm, selectedCategory, pagination.page]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+    setPagination(prev => ({ ...prev, page: 1 }));
+  };
+
+  
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setPagination(prev => ({ ...prev, page: 1 }));
+  };
+
+  
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= pagination.totalPages) {
       setPagination(prev => ({ ...prev, page: newPage }));
@@ -65,175 +131,79 @@ const ListingGrid = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('');
     setPagination(prev => ({ ...prev, page: 1 }));
+    updateUrl({ search: '', cat: '', page: '1' });
   };
 
   return (
     <Layout>
-      <PageBanner title={"Listing Grid"} pageName={"Listing"} />
+      <PageBanner title="Listing Grid" pageName="Listing" />
       <section className="listing-grid-area pt-120 pb-90">
         <div className="container">
           <div className="row">
+            {/* Sidebar Filters */}
             <div className="col-lg-4">
               <div className="sidebar-widget-area">
                 <div className="widget search-listing-widget mb-30 wow fadeInUp">
                   <h4 className="widget-title">Filter Search</h4>
-                  <form onSubmit={handleSearch}>
+                  <form onSubmit={e => e.preventDefault()}>
                     <div className="search-form">
                       <div className="form_group">
                         <input
                           type="search"
                           className="form_control"
                           placeholder="Search keyword"
-                          name="search"
                           value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          required=""
+                          onChange={handleSearch}
                         />
                         <i className="ti-search" />
                       </div>
                       <div className="form_group">
-                        <select className="wide" defaultValue={1}>
-                          <option disabled selected="Category">
-                            Category
-                          </option>
-                          <option value={1}>Museums</option>
-                          <option value={2}>Restaurant</option>
-                          <option value={3}>Party Center</option>
-                          <option value={4}>Fitness Zone</option>
-                          <option value={5}>Game Field</option>
-                          <option value={6}>Job &amp; Feeds</option>
-                          <option value={7}>Shooping</option>
-                          <option value={8}>Art Gallery</option>
-                        </select>
+                        {categoriesLoading ? (
+                          <div className="loadingSkeleton">Loading categories...</div>
+                        ) : (
+                          <select 
+                            className="wide categorySelect"
+                            value={selectedCategory}
+                            onChange={handleCategoryChange}
+                          >
+                            <option value="">All Categories</option>
+                            {categories.map(category => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </select>
+                        )}
                       </div>
-                      <div className="form_group">
-                        <select className="wide" defaultValue={1}>
-                          <option disabled selected="Location">
-                            Location
-                          </option>
-                          <option value={1}>Dhaka</option>
-                          <option value={2}>Delhi</option>
-                          <option value={3}>lahore</option>
-                          <option value={4}>Rome</option>
-                          <option value={5}>New york</option>
-                          <option value={6}>Pris</option>
-                          <option value={7}>Bern</option>
-                          <option value={8}>Bangkok</option>
-                        </select>
-                      </div>
-                      <div className="form_group">
-                        <select className="wide" defaultValue={1}>
-                          <option disabled selected="By Country">
-                            By Country
-                          </option>
-                          <option value={1}>Bangladesh</option>
-                          <option value={2}>India</option>
-                          <option value={3}>Pakistan</option>
-                          <option value={4}>Italy</option>
-                          <option value={5}>America</option>
-                          <option value={6}>London</option>
-                          <option value={7}>Swizerland</option>
-                          <option value={8}>Thailand</option>
-                        </select>
-                      </div>
-                      <div className="form_group">
-                        <select className="wide" defaultValue={1}>
-                          <option disabled selected="By place">
-                            By place
-                          </option>
-                          <option value={1}>Dhaka</option>
-                          <option value={2}>Delhi</option>
-                          <option value={3}>lahore</option>
-                          <option value={4}>Rome</option>
-                          <option value={5}>New york</option>
-                          <option value={6}>Pris</option>
-                          <option value={7}>Bern</option>
-                          <option value={8}>Bangkok</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="price-range-widget">
-                      <h4 className="widget-title">Around Distance: 50 km</h4>
-                      <RangeSlider />
-
-                      <select className="wide" defaultValue={1}>
-                        <option disabled selected="Default price">
-                          Default price
-                        </option>
-                        <option value={1}>$10-$30</option>
-                        <option value={2}>$30-$70</option>
-                        <option value={3}>$70-$100</option>
-                        <option value={4}>$100-$130</option>
-                        <option value={5}>$130-$150</option>
-                      </select>
-                    </div>
-                    <div className="form_group">
-                      <button className="main-btn icon-btn">Search Now</button>
                     </div>
                   </form>
                 </div>
-                <div className="widget newsletter-widget mb-30 wow fadeInUp">
-                  <div
-                    className="newsletter-widget-wrap bg_cover"
-                    style={{
-                      backgroundImage:
-                        "url(assets/images/newsletter-widget-1.jpg)",
-                    }}
-                  >
-                    <i className="flaticon-email-1" />
-                    <h3>Subscribe Our Newsletter</h3>
-                    <button className="main-btn icon-btn">Subscribe</button>
-                  </div>
-                </div>
               </div>
             </div>
+
+            {/* Listings Grid */}
             <div className="col-lg-8">
               <div className="listing-search-filter mb-40">
                 <div className="row">
                   <div className="col-md-8">
                     <div className="filter-left d-flex align-items-center">
                       <div className="show-text">
-                        <span>Showing Result 1-09</span>
+                        <span>
+                          {pagination.total > 0 
+                            ? `Showing ${((pagination.page - 1) * pagination.limit) + 1}-${Math.min(pagination.page * pagination.limit, pagination.total)} of ${pagination.total}`
+                            : 'No results found'}
+                        </span>
                       </div>
-                      {/* <div className="sorting-dropdown">
-                        <select defaultValue={1}>
-                          <option disabled selected="Default Sorting">
-                            Default Sorting
-                          </option>
-                          <option value={1}>Museums</option>
-                          <option value={2}>Restaurant</option>
-                          <option value={3}>Party Center</option>
-                          <option value={4}>Fitness Zone</option>
-                          <option value={5}>Game Field</option>
-                        </select>
-                      </div> */}
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="filter-right">
-                      <ul className="filter-nav">
-                        <li>
-                          <Link href="/listing-grid" className="active">
-                            <i className="ti-view-grid" />
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/listing-list">
-                            <i className="ti-view-list-alt" />
-                          </Link>
-                        </li>
-                        <li>
-                          <Link href="/listing-list">MAP
-                          </Link>
-                        </li>
-                      </ul>
                     </div>
                   </div>
                 </div>
               </div>
+
+
               <div className="listing-grid-wrapper">
                 <div className="row">
                   {error && (
@@ -250,8 +220,25 @@ const ListingGrid = () => {
                         <ListingSkeleton />
                       </div>
                     ))
+                  ) : listings.length === 0 ? (
+                    <div className="col-12 text-center py-5">
+                      <div className="empty-state">
+                        <i className="ti-search mb-3" style={{ fontSize: '48px', opacity: '0.5' }}></i>
+                        <h3>No Listings Found</h3>
+                        <p className="text-muted">
+                          We couldn't find any listings matching your search criteria.
+                          Try adjusting your filters or search terms.
+                        </p>
+                        <button 
+                          className="main-btn icon-btn mt-3"
+                          onClick={handleResetFilters}
+                        >
+                          Clear Filters
+                        </button>
+                      </div>
+                    </div>
                   ) : (
-                    listings.map((listing, index) => (
+                    listings.map(listing => (
                       <div key={listing.id} className="col-md-6 col-sm-12">
                         <ListingItem listing={listing} />
                       </div>
@@ -259,7 +246,7 @@ const ListingGrid = () => {
                   )}
                 </div>
 
-                {/* Pagination Controls */}
+
                 {!isLoading && pagination.totalPages > 1 && (
                   <div className="pagination-wrap mt-40">
                     <ul className="pagination-list">
@@ -267,37 +254,36 @@ const ListingGrid = () => {
                         <button
                           onClick={() => handlePageChange(pagination.page - 1)}
                           disabled={pagination.page === 1}
-                          className="main-btn "
+                          className="main-btn"
                         >
-                          {/* <i className="ti-angle-left" /> */}
                           <FaChevronLeft/>
                         </button>
                       </li>
 
                       {[...Array(pagination.totalPages)].map((_, index) => {
                         const pageNum = index + 1;
-                        if (
+                        const showPage = 
                           pageNum === 1 ||
                           pageNum === pagination.totalPages ||
-                          (pageNum >= pagination.page - 1 && pageNum <= pagination.page + 1)
-                        ) {
+                          (pageNum >= pagination.page - 1 && pageNum <= pagination.page + 1);
+                        const showEllipsis = 
+                          (pageNum === pagination.page - 2 || pageNum === pagination.page + 2) &&
+                          pageNum !== 1 &&
+                          pageNum !== pagination.totalPages;
+
+                        if (showPage) {
                           return (
                             <li key={pageNum}>
                               <button
                                 onClick={() => handlePageChange(pageNum)}
-                                className={`main-btn ${
-                                  pagination.page === pageNum ? 'active' : ''
-                                }`}
+                                className={`main-btn ${pagination.page === pageNum ? 'active' : ''}`}
                               >
                                 {pageNum}
                               </button>
                             </li>
                           );
                         }
-                        if (
-                          pageNum === pagination.page - 2 ||
-                          pageNum === pagination.page + 2
-                        ) {
+                        if (showEllipsis) {
                           return <li key={pageNum}>...</li>;
                         }
                         return null;
@@ -310,7 +296,6 @@ const ListingGrid = () => {
                           className="main-btn"
                         >
                           <FaChevronRight/>
-                          {/* <i className="ti-angle-right" /> */}
                         </button>
                       </li>
                     </ul>

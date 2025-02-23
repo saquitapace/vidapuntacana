@@ -2,6 +2,8 @@ import Link from "next/link";
 import styles from "./ListingItem.module.css";
 
 const ListingItem = ({ listing }) => {
+  if(listing.lid == '2306019475')
+  console.log('Listing Item ' , listing);
   return (
     <div className="listing-item listing-grid-item-two mb-30 wow fadeInUp">
       <div className="listing-thumbnail">
@@ -25,24 +27,14 @@ const ListingItem = ({ listing }) => {
         )}
         {listing?.featured && <span className="featured-btn">Featured</span>}
         <ul className="ratings ratings-four">
-          <li className="star">
-            <i className="flaticon-star-1" />
-          </li>
-          <li className="star">
-            <i className="flaticon-star-1" />
-          </li>
-          <li className="star">
-            <i className="flaticon-star-1" />
-          </li>
-          <li className="star">
-            <i className="flaticon-star-1" />
-          </li>
-          <li className="star">
-            <i className="flaticon-star-1" />
-          </li>
+          {[...Array(5)].map((_, index) => (
+            <li key={index} className="star">
+              <i className={`flaticon-star-1 ${index < Math.floor(listing?.rating) ? 'filled' : ''}`} />
+            </li>
+          ))}
           <li>
             <span>
-              <a href="#">(02 Reviews)</a>
+              <a href="#">({listing?.review_count || 0} Reviews)</a>
             </span>
           </li>
         </ul>
@@ -55,8 +47,8 @@ const ListingItem = ({ listing }) => {
         <span className="phone-meta">
           <i className="ti-tablet" />
           <a href={`tel:${listing?.phone}`}>{listing?.phone}</a>
-          <span className={`status ${listing.isOpen ? 'st-open' : 'st-close'}`}>
-            {listing.isOpen ? 'Open' : 'Close'}
+          <span className={`status ${listing.status === 'open' ? 'st-open' : 'st-close'}`}>
+            {listing.status}
           </span>
         </span>
         <div className="listing-meta">

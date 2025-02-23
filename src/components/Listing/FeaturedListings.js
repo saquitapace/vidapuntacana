@@ -41,7 +41,7 @@ export const FeaturedListings = () => {
         ) : (
             <div className="row">
                 {
-                    featuredListings.map((listing, index) => (
+                    featuredListings?.map((listing, index) => (
                         <FeaturedListing key={listing.id || index} {...listing} />
                     ))
                 }
