@@ -1,6 +1,5 @@
 import {
   addDays,
-  closestTo,
   eachHourOfInterval,
   endOfDay,
   endOfMonth,
@@ -11,14 +10,12 @@ import {
   getHours,
   getMinutes,
   getMonth,
-  set,
   startOfDay,
   startOfMonth,
   startOfWeek,
   startOfYear,
   subDays,
 } from 'date-fns';
-import { uuid } from 'uuidv4';
 import {
   CalendarViewTypes,
   EventRepeatTypes,
@@ -529,15 +526,17 @@ export const getEventsForDate = (events, currentDate, day) => {
     currentDate.getMonth(),
     day
   );
-  
+
   // Format target date to YYYY-MM-DD for comparison
   const targetDateStr = targetDate.toISOString().split('T')[0];
-  
-  return events?.filter((event) => {
-    // Get the date string from event (handling both date and start_date cases)
-    const eventDateStr = (event?.start_date || event?.date)?.split('T')[0];
-    
-    // Simple string comparison of dates
-    return eventDateStr === targetDateStr;
-  }) ?? [];
+
+  return (
+    events?.filter((event) => {
+      // Get the date string from event (handling both date and start_date cases)
+      const eventDateStr = (event?.start_date || event?.date)?.split('T')[0];
+
+      // Simple string comparison of dates
+      return eventDateStr === targetDateStr;
+    }) ?? []
+  );
 };
