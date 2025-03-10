@@ -1,5 +1,7 @@
 import { query } from '@/src/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req) {
   const sql = 'select * from listing';
   const listings = await query(sql);

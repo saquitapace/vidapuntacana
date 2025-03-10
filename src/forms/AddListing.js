@@ -21,7 +21,8 @@ const DAYS = [
 
 // Zod schema
 export const AddListingSchema = z.object({
-  id: z.string().optional(),
+  id: z.number().optional(),
+  lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
   address: z.string().min(5, 'Address is required'),
@@ -29,6 +30,7 @@ export const AddListingSchema = z.object({
   primaryCategory: z.object({
     id: z.number(),
     name: z.string(),
+    listing_category_id: z.number().optional(),
   }),
   categories: z.array(
     z.object({
@@ -37,7 +39,17 @@ export const AddListingSchema = z.object({
     })
   ),
   tags: z.array(z.string()).optional(),
-  photos: z.array(z.string()).optional(),
+  photos: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          id: z.number().optional(),
+          url: z.string().optional(),
+        }),
+      ])
+    )
+    .optional(),
   review_count: z.number().int().nonnegative().optional().default(0),
   rating: z.number().min(0).max(5).optional().default(0),
   hours: z.array(
@@ -58,6 +70,7 @@ export const AddListingSchema = z.object({
     })
   ),
   socialMedia: z.object({
+    id: z.number().optional(),
     instagram: z.string().url('Invalid URL').optional().or(z.literal('')),
     facebook: z.string().url('Invalid URL').optional().or(z.literal('')),
     tripAdvisor: z.string().url('Invalid URL').optional().or(z.literal('')),
@@ -74,7 +87,7 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
   const [categories, setCategories] = useState([]);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
-
+  console.log('inital data ', initialData);
   const defaultValues = {
     id: initialData?.id || '',
     lid: initialData?.lid || '',
@@ -89,7 +102,7 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     categories: initialData?.categories || [],
     tags: [],
     photos: initialData?.photos || [],
-    review_count: initialData?.review_count ?? 0,
+    review_count: initialData?.reviewCount ?? 0,
     rating: initialData?.rating ?? 0,
     hours: DAYS.map((day) => ({
       day: day.value,
@@ -103,12 +116,13 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
           : '17:00',
     })),
     socialMedia: {
-      instagram: '',
-      facebook: '',
-      tripAdvisor: '',
-      whatsapp: '',
-      google: '',
-      website: '',
+      id: initialData?.socialMedia?.id,
+      instagram: initialData?.socialMedia?.instagram ?? '',
+      facebook: initialData?.socialMedia?.facebook ?? '',
+      tripAdvisor: initialData?.socialMedia?.tripAdvisor ?? '',
+      whatsapp: initialData?.socialMedia?.whatsapp ?? '',
+      google: initialData?.socialMedia?.google ?? '',
+      website: initialData?.socialMedia?.website ?? '',
     },
   };
 
@@ -125,19 +139,18 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     defaultValues: defaultValues,
   });
   console.log('Errors ', errors);
-  // Field array for hours
+
   const { fields: hoursFields } = useFieldArray({
     control,
     name: 'hours',
   });
   console.log('Hour fields ', hoursFields);
-  // Handle form submission
+
   const handleFormSubmit = (data) => {
     console.log('Data ', data);
     onSubmit(data);
   };
 
-  // Remove category
   const removeCategory = (index) => {
     const currentCategories = watch('categories') || [];
     setValue(
@@ -146,7 +159,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     );
   };
 
-  // Add new tag
   const addTag = () => {
     if (newTag.trim()) {
       const currentTags = watch('tags') || [];
@@ -157,7 +169,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     }
   };
 
-  // Remove tag
   const removeTag = (index) => {
     const currentTags = watch('tags') || [];
     setValue(
@@ -166,17 +177,15 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     );
   };
 
-  // Modified handlePhotoUpload function
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    // Show preview immediately
     setPreviewImage({
       file,
       preview: URL.createObjectURL(file),
     });
-
+    console.log('field values ', getValues());
     try {
       setUploadingPhoto(true);
 
@@ -476,12 +485,13 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
             {watchedPhotos.map((photo, index) => (
               <div key={index} className='photo-container'>
                 <img
-                  src={photo}
+                  src={typeof photo === 'string' ? photo : photo?.url}
                   alt={`Listing photo ${index + 1}`}
                   className='photo'
                   onError={(e) => {
+                    console.log('e', e);
                     e.target.onerror = null;
-                    e.target.src = '/api/placeholder/300/200';
+                    // e.target.src = '/api/placeholder/300/200';
                   }}
                 />
                 <button

@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import { query } from '@/src/lib/db';
+export const dynamic = 'force-dynamic';
 
 export async function GET(req) {
   try {

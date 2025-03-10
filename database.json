@@ -17,10 +17,13 @@
   },
   "prod": {
     "driver": "mysql",
-    "host": "mysql-2909344d-anasdev-8ca5.h.aivencloud.com",
-    "port": 26072,
-    "database": "vivopuntacana",
-    "user": "vivo_user",
-    "password": "AVNS_6w0JdPw0TwAmo5KAf8z"
+    "host": {
+      "ENV": "DB_HOST",
+      "MISSING": "mysql-2909344d-anasdev-8ca5.h.aivencloud.com"
+    },
+    "port": { "ENV": "DB_PORT", "MISSING": 26072 },
+    "database": { "ENV": "DB_NAME", "MISSING": "vivopuntacana" },
+    "user": { "ENV": "DB_USER", "MISSING": "vivo_user" },
+    "password": { "ENV": "DB_PASSWORD", "MISSING": "AVNS_6w0JdPw0TwAmo5KAf8z" }
   }
 }

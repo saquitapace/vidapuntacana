@@ -1,10 +1,12 @@
 'use server';
 import { getConnection } from '@/src/lib/db';
+import { type } from 'node:os';
 import { v4 as uuidv4 } from 'uuid';
 import * as z from 'zod';
 
 const AddListingSchema = z.object({
-  id: z.string().optional(),
+  id: z.number().optional(),
+  lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
   address: z.string().min(5, 'Address is required'),
@@ -20,7 +22,17 @@ const AddListingSchema = z.object({
     })
   ),
   tags: z.array(z.string()).optional(),
-  photos: z.array(z.string()).optional(),
+  photos: z
+    .array(
+      z.union([
+        z.string(),
+        z.object({
+          id: z.number().optional(),
+          url: z.string().optional(),
+        }),
+      ])
+    )
+    .optional(),
   review_count: z.number().int().nonnegative().optional().default(0),
   rating: z.number().min(0).max(5).optional().default(0),
   hours: z.array(
@@ -51,18 +63,20 @@ const AddListingSchema = z.object({
 });
 export async function addListing(listingData) {
   try {
-    // Validate the data
     const validatedData = AddListingSchema.parse(listingData);
 
     const lid = uuidv4();
 
     const conn = await getConnection();
-
+    console.log(
+      'validatedData.primaryCategory?.id',
+      validatedData.primaryCategory?.id
+    );
     try {
-      // Start a transaction
+      //
       await conn.beginTransaction();
       console.log('jere');
-      // 1. Insert into listing table
+
       const [listingResult] = await conn.execute(
         `INSERT INTO listing (
           lid, title, description, address, phone, 
@@ -183,6 +197,151 @@ export async function addListing(listingData) {
     return {
       success: false,
       message: 'Failed to add listing',
+      error: error.message,
+    };
+  }
+}
+
+export async function updateListing(listingData) {
+  try {
+    console.log('listingData', listingData);
+    const validatedData = AddListingSchema.parse(listingData);
+    const { lid } = validatedData;
+    console.log();
+    const conn = await getConnection();
+
+    try {
+      await conn.beginTransaction();
+      console.log(
+        '          validatedData.primaryCategory?.id,',
+        validatedData.primaryCategory?.id
+      );
+      // 1. Update main listing information
+      await conn.execute(
+        `UPDATE listing 
+         SET title = ?, description = ?, address = ?, phone = ?, 
+             google_review_count = ?, google_rating = ?, primary_category = ?
+         WHERE lid = ?`,
+        [
+          validatedData.title,
+          validatedData.description,
+          validatedData.address,
+          validatedData.phone,
+          validatedData.review_count,
+          validatedData.rating,
+          validatedData.primaryCategory?.id,
+          lid,
+        ]
+      );
+
+      // 2. Update categories - delete old ones and insert new ones
+      await conn.execute(`DELETE FROM listing_category WHERE listing_id = ?`, [
+        lid,
+      ]);
+
+      for (const category of validatedData?.categories) {
+        await conn.execute(
+          `INSERT INTO listing_category (listing_id, category_id) VALUES (?, ?)`,
+          [lid, category.id]
+        );
+      }
+
+      // 3. Update photos - delete old ones and insert new ones
+      if (validatedData?.photos) {
+        await conn.execute(`DELETE FROM photos WHERE lid = ?`, [lid]);
+
+        for (const photoUrl of validatedData.photos) {
+          const url =
+            typeof photoUrl === 'string'
+              ? photoUrl
+              : photoUrl?.url ?? '/default.png';
+          await conn.execute(`INSERT INTO photos (lid, url) VALUES (?, ?)`, [
+            lid,
+            url,
+          ]);
+        }
+      }
+
+      // 4. Update hours - delete old ones and insert new ones
+      if (validatedData?.hours) {
+        await conn.execute(`DELETE FROM hours WHERE lid = ?`, [lid]);
+
+        for (const hour of validatedData.hours) {
+          await conn.execute(
+            `INSERT INTO hours (lid, day, start_time, end_time) VALUES (?, ?, ?, ?)`,
+            [lid, hour.day, hour.start_time, hour.end_time]
+          );
+        }
+      }
+
+      console.log('here5');
+      // 5. Update social media - check if exists first, then update or insert
+      const socialMedia = validatedData?.socialMedia;
+      if (socialMedia) {
+        // Check if social media entry exists for this listing
+        const [existingSocialMedia] = await conn.execute(
+          `SELECT * FROM social_media WHERE lid = ?`,
+          [lid]
+        );
+
+        if (existingSocialMedia.length > 0) {
+          // Update existing social media entry
+          await conn.execute(
+            `UPDATE social_media 
+             SET instagram = ?, facebook = ?, trip_advisor = ?, 
+                 whatsapp = ?, google = ?, website = ?
+             WHERE lid = ?`,
+            [
+              socialMedia?.instagram || null,
+              socialMedia?.facebook || null,
+              socialMedia?.tripAdvisor || null,
+              socialMedia?.whatsapp || null,
+              socialMedia?.google || null,
+              socialMedia?.website || null,
+              lid,
+            ]
+          );
+        } else {
+          // Create new social media entry
+          await conn.execute(
+            `INSERT INTO social_media (
+              lid, instagram, facebook, trip_advisor, whatsapp, google, website
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [
+              lid,
+              socialMedia?.instagram || null,
+              socialMedia?.facebook || null,
+              socialMedia?.tripAdvisor || null,
+              socialMedia?.whatsapp || null,
+              socialMedia?.google || null,
+              socialMedia?.website || null,
+            ]
+          );
+        }
+      }
+      console.log('here_after_5');
+
+      await conn.commit();
+      return { success: true, lid, message: 'Listing updated successfully' };
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      await conn.release();
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    if (error.name === 'ZodError') {
+      return {
+        success: false,
+        message: 'Validation failed',
+        errors: error.errors,
+      };
+    }
+
+    return {
+      success: false,
+      message: 'Failed to update listing',
       error: error.message,
     };
   }

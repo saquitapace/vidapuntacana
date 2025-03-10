@@ -1,42 +1,68 @@
 import { query } from '@/src/lib/db';
+export const dynamic = 'force-dynamic';
 
 export async function GET(req, { params }) {
   try {
     const { lid } = params;
 
-    // Modified SQL query to include category IDs
-    const sql = `
-      SELECT 
-        l.*,
-        GROUP_CONCAT(DISTINCT CONCAT(c.id, ':', c.name)) as categories,
-        GROUP_CONCAT(DISTINCT t.name) as tags,
-        GROUP_CONCAT(DISTINCT p.url) as photos,
-        sm.instagram, sm.facebook, sm.trip_advisor, sm.whatsapp, sm.google, sm.website,
-        GROUP_CONCAT(DISTINCT CONCAT(h.day, ':', h.start_time, '-', h.end_time)) as hours
+    const listingSql = `
+      SELECT l.*, 
+             sm.id as social_media_id, 
+             sm.instagram, sm.facebook, sm.trip_advisor, sm.whatsapp, sm.google, sm.website
       FROM listing l
-      LEFT JOIN listing_category lc ON l.lid = lc.listing_id
-      LEFT JOIN category c ON lc.category_id = c.id
-      LEFT JOIN listing_tags lt ON l.id = lt.listing_id
-      LEFT JOIN tags t ON lt.tag_id = t.id
-      LEFT JOIN photos p ON l.lid = p.lid
       LEFT JOIN social_media sm ON l.lid = sm.lid
-      LEFT JOIN hours h ON l.lid = h.lid
       WHERE l.lid = ?
-      GROUP BY l.id
     `;
-
-    const [listing] = await query(sql, [lid]);
+    const [listing] = await query(listingSql, [lid]);
 
     if (!listing) {
       return new Response(JSON.stringify({ error: 'Listing not found' }), {
         status: 404,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // Helper functions for formatting time and checking if open
+    const categoriesSql = `
+      SELECT c.id, c.name, lc.id as listing_category_id 
+      FROM category c
+      JOIN listing_category lc ON c.id = lc.category_id
+      WHERE lc.listing_id = ?
+    `;
+
+    const tagsSql = `
+      SELECT t.id, t.name, lt.id as listing_tag_id 
+      FROM tags t
+      JOIN listing_tags lt ON t.id = lt.tag_id
+      WHERE lt.listing_id = ?
+    `;
+
+    const photosSql = `
+      SELECT id, url, lid
+      FROM photos
+      WHERE lid = ?
+    `;
+
+    const hoursSql = `
+      SELECT id, lid, day, start_time, end_time
+      FROM hours
+      WHERE lid = ?
+    `;
+    const primaryCategorySql = `
+      SELECT c.id, c.name
+      FROM category c
+      JOIN listing l ON l.primary_category = c.id
+      WHERE l.lid = ?
+    `;
+    // Execute queries in parallel
+    const [categories, tags, photos, hoursData, primaryCategory] =
+      await Promise.all([
+        query(categoriesSql, [lid]),
+        query(tagsSql, [lid]),
+        query(photosSql, [lid]),
+        query(hoursSql, [lid]),
+        query(primaryCategorySql, [lid]),
+      ]);
+
     const formatTimeString = (timeStr) => {
       if (!timeStr) return null;
       const parts = timeStr.split(':');
@@ -87,45 +113,26 @@ export async function GET(req, { params }) {
       return currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
     };
 
-    const parseHours = (hoursString) => {
-      if (!hoursString) return {};
+    const processedHours = {};
+    hoursData.forEach((hour) => {
+      processedHours[hour.day] = {
+        id: hour.id,
+        open: formatTimeString(hour.start_time),
+        close: formatTimeString(hour.end_time),
+      };
+    });
 
-      return hoursString.split(',').reduce((acc, timeSlot) => {
-        if (!timeSlot) return acc;
-
-        const [day, timeRange] = timeSlot.split(':', 2);
-        if (!timeRange) return acc;
-
-        const fullTimeRange = timeSlot.substring(timeSlot.indexOf(':') + 1);
-        const [openTime, closeTime] = fullTimeRange
-          .split('-')
-          .map((time) => time.trim());
-
-        acc[day] = {
-          open: formatTimeString(openTime),
-          close: formatTimeString(closeTime),
-        };
-
-        return acc;
-      }, {});
-    };
-
-    const hours = parseHours(listing.hours);
     let status = 'closed';
-    if (hours[currentDayNumber]) {
-      const { open, close } = hours[currentDayNumber];
+    if (processedHours[currentDayNumber]) {
+      const { open, close } = processedHours[currentDayNumber];
       if (open && close && isOpenNow(open, close, currentTime)) {
         status = 'open';
       }
     }
 
-    // Parse categories
-    const categoriesArray = listing.categories?.split(',') || [];
-    const structuredCategories = categoriesArray.map((category) => {
-      const [id, name] = category.split(':');
-      return { id: parseInt(id), name };
-    });
-
+    // const primaryCategory =
+    //   categories.find((cat) => cat.id === listing.primary_category) || null;
+    console.log('primaryCategory', primaryCategory);
     return new Response(
       JSON.stringify({
         id: listing.id,
@@ -135,17 +142,33 @@ export async function GET(req, { params }) {
         name: listing.name,
         address: listing.address,
         phone: listing.phone,
-        primary_category: structuredCategories.find(
-          (cat) => cat?.id === listing?.primary_category
-        ),
-        categories: structuredCategories,
-        tags: listing.tags?.split(',').filter(Boolean) || [],
-        photos: listing.photos?.split(',').filter(Boolean) || [],
-        review_count: Number(listing?.google_review_count || 0),
+        primaryCategory: primaryCategory
+          ? {
+              id: primaryCategory[0]?.id,
+              name: primaryCategory[0]?.name,
+              listing_category_id: primaryCategory[0]?.listing_category_id,
+            }
+          : null,
+        categories: categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          listing_category_id: cat.listing_category_id,
+        })),
+        tags: tags.map((tag) => ({
+          id: tag.id,
+          name: tag.name,
+          listing_tag_id: tag.listing_tag_id,
+        })),
+        photos: photos.map((photo) => ({
+          id: photo.id,
+          url: photo.url,
+        })),
+        reviewCount: Number(listing?.google_review_count || 0),
         rating: Number(listing?.google_rating || 0),
-        hours,
+        hours: processedHours,
         status,
         socialMedia: {
+          id: listing.social_media_id,
           instagram: listing.instagram,
           facebook: listing.facebook,
           tripAdvisor: listing.trip_advisor,

@@ -1,6 +1,6 @@
 'use client';
 
-import { addListing } from '@/app/actions/listing.action';
+import { addListing, updateListing } from '@/app/actions/listing.action';
 import DataTable from '@/src/components/DataTable';
 import Drawer from '@/src/components/Drawer';
 import ListingForm from '@/src/forms/AddListing';
@@ -46,6 +46,25 @@ const ListingsPage = () => {
   const handleSubmit = async (data) => {
     try {
       console.log('submitting ');
+      if (selectedListing?.lid) {
+        console.log('updating data ', data);
+        const { success, message, error, errors } = await updateListing(data);
+        if (success) {
+          notify('Listing Updated!', 'success', {
+            position: 'top-center',
+            dismissAfter: 3000,
+          });
+          fetchData();
+          setIsDrawerOpen(false);
+        } else {
+          notify(message || 'Failed to update listing', 'error', {
+            position: 'top-center',
+            dismissAfter: 3000,
+          });
+        }
+        return;
+      }
+
       const { error, ...res } = await addListing(data);
       console.log('res', error, res);
       if (!error) {
@@ -150,6 +169,7 @@ const ListingsPage = () => {
     setIsDrawerOpen(false);
     setSelectedListing({});
   }, []);
+  console.log('Object.keys', Object.keys(selectedListing ?? {}).length);
   return (
     <>
       <Drawer
@@ -157,7 +177,9 @@ const ListingsPage = () => {
         isOpen={isDrawerOpen}
         position='right'
         onClose={closeDrawer}
-        title='Add Listing'
+        title={`${
+          Object.keys(selectedListing ?? {}).length > 0 ? 'Update ' : 'Add'
+        } Listing`}
       >
         <ListingForm
           initialData={selectedListing}
