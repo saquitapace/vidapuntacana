@@ -19,13 +19,12 @@ const DAYS = [
   { value: 7, label: 'Sunday' },
 ];
 
-// Zod schema
 export const AddListingSchema = z.object({
   id: z.union([z.number(), z.string()]).optional().nullable(),
   lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
-  address: z.string().min(5, 'Address is required'),
+  address: z.string().min(1, 'Address is required'),
   phone: z.string().min(8, 'Valid phone number is required'),
   primaryCategory: z.object({
     id: z.union([z.number(), z.string()]),
@@ -189,28 +188,23 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     try {
       setUploadingPhoto(true);
 
-      // Create a unique file name
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `listings/${fileName}`;
 
-      // Upload to Supabase
       const { data, error } = await supabase.storage
         .from('vidapuntacna-listing')
         .upload(filePath, file);
 
       if (error) throw error;
 
-      // Get public URL
       const {
         data: { publicUrl },
       } = supabase.storage.from('vidapuntacna-listing').getPublicUrl(filePath);
 
-      // Add to photos array
       const currentPhotos = watch('photos') || [];
       setValue('photos', [...currentPhotos, publicUrl]);
 
-      // Clear preview after successful upload
       setPreviewImage(null);
     } catch (error) {
       console.error('Error uploading photo:', error);
@@ -220,12 +214,10 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     }
   };
 
-  // Cancel upload preview
   const cancelPreview = () => {
     setPreviewImage(null);
   };
 
-  // Remove photo
   const removePhoto = (index) => {
     const currentPhotos = watch('photos') || [];
     setValue(
@@ -234,7 +226,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     );
   };
 
-  // Function to render error message
   const ErrorMessage = ({ name }) => {
     return errors[name] ? (
       <p className='error-message'>{errors[name]?.message}</p>
@@ -255,7 +246,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     getCategories();
   }, []);
 
-  // Handle primary category selection
   const handlePrimaryCategoryChange = (e) => {
     const categoryId = parseInt(e.target.value, 10);
 
@@ -269,7 +259,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     }
   };
 
-  // Handle additional category selection
   const handleAddCategory = () => {
     if (selectedCategoryId) {
       const categoryId = parseInt(selectedCategoryId, 10);
@@ -290,7 +279,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
     }
   };
 
-  // Watch the values needed for rendering
   const watchedCategories = watch('categories') || [];
   const watchedTags = watch('tags') || [];
   const watchedPhotos = watch('photos') || [];
@@ -299,14 +287,12 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit(handleFormSubmit)} className='listing-form'>
-        {/* Show loading skeleton while initialData is loading */}
         {isSubmitting ? (
-          <div className="form-loading-overlay">
-            <div className="loading-spinner"></div>
+          <div className='form-loading-overlay'>
+            <div className='loading-spinner'></div>
           </div>
         ) : null}
 
-        {/* Title */}
         <div className='form-field'>
           <label className='form-label'>Title *</label>
           <input
@@ -319,7 +305,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
           )}
         </div>
 
-        {/* Description */}
         <div className='form-field'>
           <label className='form-label'>Description *</label>
           <textarea
@@ -335,7 +320,6 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
           )}
         </div>
 
-        {/* Address and Phone */}
         <div className='form-row'>
           <div className='form-field'>
             <label className='form-label'>
@@ -764,11 +748,13 @@ const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
           >
             {isSubmitting ? (
               <>
-                <span className="loading-spinner small"></span>
+                <span className='loading-spinner small'></span>
                 {initialData?.lid ? 'Updating...' : 'Creating...'}
               </>
+            ) : initialData?.lid ? (
+              'Update Listing'
             ) : (
-              initialData?.lid ? 'Update Listing' : 'Create Listing'
+              'Create Listing'
             )}
           </button>
         </div>

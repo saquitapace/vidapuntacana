@@ -8,7 +8,7 @@ const AddListingSchema = z.object({
   lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
-  address: z.string().min(5, 'Address is required'),
+  address: z.string().min(1, 'Address is required'),
   phone: z.string().min(8, 'Valid phone number is required'),
   primaryCategory: z.object({
     id: z.union([z.number(), z.string()]),
