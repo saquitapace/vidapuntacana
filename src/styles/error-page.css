@@ -1,0 +1,20 @@
+.error-page-section .error-content .error-thumb {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.error-page-section .error-content h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.error-page-section .error-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+.error-page-section .error-button {
+  margin-top: 30px;
+} 

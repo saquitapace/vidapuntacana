@@ -2,19 +2,32 @@ import Link from 'next/link';
 import React from 'react';
 import styles from './FeaturedListing.module.css';
 
-const FeaturedListing = ({ photos, title, phone, status, address, primaryCategory }) => {
+const FeaturedListing = ({
+  photos,
+  title,
+  phone,
+  status,
+  address,
+  primaryCategory,
+  lid,
+  ...rest
+}) => {
   return (
     <div className='col-lg-4 col-md-6 col-sm-12'>
       <div className='listing-item listing-grid-one mb-45 wow fadeInUp'>
         <div className='listing-thumbnail'>
           <div className={styles['image-wrapper']}>
             <img
-              src={Array.isArray(photos) && photos.length > 0 ? photos[0] : '/assets/business_profile_photos/profile-photo-12345.jpg'}
+              src={
+                Array.isArray(photos) && photos.length > 0
+                  ? photos[0]
+                  : '/assets/business_profile_photos/profile-photo-12345.jpg'
+              }
               alt='Listing Image'
               className={styles['listing-image']}
               style={{
-                width : '330px',
-                height : '330px'
+                width: '330px',
+                height: '330px',
               }}
             />
           </div>
@@ -25,8 +38,7 @@ const FeaturedListing = ({ photos, title, phone, status, address, primaryCategor
                 <i className='flaticon-chef'></i>
               </div>
               <div className='title'>
-                <h6>{
-                  primaryCategory}</h6>
+                <h6>{primaryCategory}</h6>
               </div>
             </div>
             <span className={`status st-${status.toLowerCase()}`}>
@@ -36,7 +48,7 @@ const FeaturedListing = ({ photos, title, phone, status, address, primaryCategor
         </div>
         <div className='listing-content'>
           <h3 className='title'>
-            <Link href='/listing-details-1'>{title}</Link>
+            <Link href={`/en/listing-details/${lid}`}>{title}</Link>
           </h3>
           {/* we dont need reviews for now */}
           {/* <div className='ratings'>

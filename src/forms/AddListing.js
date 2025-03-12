@@ -70,7 +70,7 @@ export const AddListingSchema = z.object({
     })
   ),
   socialMedia: z.object({
-    id: z.number().optional(),
+    id: z.number().optional().nullable(),
     instagram: z.string().url('Invalid URL').optional().or(z.literal('')),
     facebook: z.string().url('Invalid URL').optional().or(z.literal('')),
     tripAdvisor: z.string().url('Invalid URL').optional().or(z.literal('')),

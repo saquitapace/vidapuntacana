@@ -47,3 +47,4 @@ coverage/
 
 # Optional stylelint cache
 .stylelintcache
+test_env
