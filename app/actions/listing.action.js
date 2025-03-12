@@ -1,23 +1,23 @@
 'use server';
 import { getConnection, query } from '@/src/lib/db';
-import { type } from 'node:os';
 import { v4 as uuidv4 } from 'uuid';
 import * as z from 'zod';
 
 const AddListingSchema = z.object({
-  id: z.number().optional(),
+  id: z.union([z.number(), z.string()]).optional().nullable(),
   lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
   address: z.string().min(5, 'Address is required'),
   phone: z.string().min(8, 'Valid phone number is required'),
   primaryCategory: z.object({
-    id: z.number(),
+    id: z.union([z.number(), z.string()]),
     name: z.string(),
+    listing_category_id: z.union([z.number(), z.string()]).optional(),
   }),
   categories: z.array(
     z.object({
-      id: z.number(),
+      id: z.union([z.number(), z.string()]),
       name: z.string(),
     })
   ),
@@ -27,7 +27,7 @@ const AddListingSchema = z.object({
       z.union([
         z.string(),
         z.object({
-          id: z.number().optional(),
+          id: z.union([z.number(), z.string()]).optional(),
           url: z.string().optional(),
         }),
       ])
@@ -53,6 +53,7 @@ const AddListingSchema = z.object({
     })
   ),
   socialMedia: z.object({
+    id: z.union([z.number(), z.string()]).optional().nullable(),
     instagram: z.string().url('Invalid URL').optional().or(z.literal('')),
     facebook: z.string().url('Invalid URL').optional().or(z.literal('')),
     tripAdvisor: z.string().url('Invalid URL').optional().or(z.literal('')),
@@ -347,8 +348,6 @@ export async function updateListing(listingData) {
   }
 }
 
-
-
 export async function getListingDetails(lid) {
   try {
     const listingSql = `
@@ -390,14 +389,14 @@ export async function getListingDetails(lid) {
       FROM hours
       WHERE lid = ?
     `;
-    
+
     const primaryCategorySql = `
       SELECT c.id, c.name
       FROM category c
       JOIN listing l ON l.primary_category = c.id
       WHERE l.lid = ?
     `;
-    
+
     const [categories, tags, photos, hoursData, primaryCategory] =
       await Promise.all([
         query(categoriesSql, [lid]),
@@ -483,13 +482,14 @@ export async function getListingDetails(lid) {
         name: listing.name,
         address: listing.address,
         phone: listing.phone,
-        primaryCategory: primaryCategory.length > 0
-          ? {
-              id: primaryCategory[0]?.id,
-              name: primaryCategory[0]?.name,
-              listing_category_id: primaryCategory[0]?.listing_category_id,
-            }
-          : null,
+        primaryCategory:
+          primaryCategory.length > 0
+            ? {
+                id: primaryCategory[0]?.id,
+                name: primaryCategory[0]?.name,
+                listing_category_id: primaryCategory[0]?.listing_category_id,
+              }
+            : null,
         categories: categories.map((cat) => ({
           id: cat.id,
           name: cat.name,
@@ -518,7 +518,7 @@ export async function getListingDetails(lid) {
           website: listing.website,
         },
       },
-      status: 200
+      status: 200,
     };
   } catch (error) {
     console.error('Error fetching listing:', error);

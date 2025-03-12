@@ -21,20 +21,20 @@ const DAYS = [
 
 // Zod schema
 export const AddListingSchema = z.object({
-  id: z.number().optional(),
+  id: z.union([z.number(), z.string()]).optional().nullable(),
   lid: z.string().optional(),
   title: z.string().min(2, 'Title must be at least 2 characters'),
   description: z.string().optional(),
   address: z.string().min(5, 'Address is required'),
   phone: z.string().min(8, 'Valid phone number is required'),
   primaryCategory: z.object({
-    id: z.number(),
+    id: z.union([z.number(), z.string()]),
     name: z.string(),
-    listing_category_id: z.number().optional(),
+    listing_category_id: z.union([z.number(), z.string()]).optional(),
   }),
   categories: z.array(
     z.object({
-      id: z.number(),
+      id: z.union([z.number(), z.string()]),
       name: z.string(),
     })
   ),
@@ -44,7 +44,7 @@ export const AddListingSchema = z.object({
       z.union([
         z.string(),
         z.object({
-          id: z.number().optional(),
+          id: z.union([z.number(), z.string()]).optional(),
           url: z.string().optional(),
         }),
       ])
@@ -70,7 +70,7 @@ export const AddListingSchema = z.object({
     })
   ),
   socialMedia: z.object({
-    id: z.number().optional().nullable(),
+    id: z.union([z.number(), z.string()]).optional().nullable(),
     instagram: z.string().url('Invalid URL').optional().or(z.literal('')),
     facebook: z.string().url('Invalid URL').optional().or(z.literal('')),
     tripAdvisor: z.string().url('Invalid URL').optional().or(z.literal('')),
@@ -80,7 +80,7 @@ export const AddListingSchema = z.object({
   }),
 });
 
-const ListingForm = ({ initialData, onSubmit, onCancel }) => {
+const ListingForm = ({ initialData, onSubmit, onCancel, isSubmitting }) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newPhoto, setNewPhoto] = useState('');
@@ -130,7 +130,7 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
     register,
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting: formIsSubmitting },
     setValue,
     watch,
     getValues,
@@ -299,6 +299,13 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit(handleFormSubmit)} className='listing-form'>
+        {/* Show loading skeleton while initialData is loading */}
+        {isSubmitting ? (
+          <div className="form-loading-overlay">
+            <div className="loading-spinner"></div>
+          </div>
+        ) : null}
+
         {/* Title */}
         <div className='form-field'>
           <label className='form-label'>Title *</label>
@@ -743,11 +750,26 @@ const ListingForm = ({ initialData, onSubmit, onCancel }) => {
         {/* Form Actions */}
         <div className='form-actions'>
           <button
-            type='submit'
+            type='button'
+            onClick={onCancel}
+            className='cancel-button'
             disabled={isSubmitting}
-            className='submit-button'
           >
-            {isSubmitting ? 'Saving...' : 'Save Listing'}
+            Cancel
+          </button>
+          <button
+            type='submit'
+            className='submit-button'
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <span className="loading-spinner small"></span>
+                {initialData?.lid ? 'Updating...' : 'Creating...'}
+              </>
+            ) : (
+              initialData?.lid ? 'Update Listing' : 'Create Listing'
+            )}
           </button>
         </div>
       </form>

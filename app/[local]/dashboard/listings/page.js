@@ -16,6 +16,8 @@ const ListingsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isEditLoading, setIsEditLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const { notify } = useNotifications();
 
   const fetchData = async () => {
@@ -45,6 +47,7 @@ const ListingsPage = () => {
 
   const handleSubmit = async (data) => {
     try {
+      setIsSubmitting(true);
       console.log('submitting ');
       if (selectedListing?.lid) {
         console.log('updating data ', data);
@@ -87,6 +90,8 @@ const ListingsPage = () => {
           dismissAfter: 3000,
         }
       );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -137,7 +142,7 @@ const ListingsPage = () => {
             <button
               onClick={async () => {
                 try {
-                  setIsEditLoading(true);
+                  setEditingId(row.original.lid);
                   const res = await fetch(`/api/listings/${row.original.lid}`);
                   const data = await res.json();
                   console.log('__data ', data);
@@ -146,15 +151,16 @@ const ListingsPage = () => {
                 } catch (error) {
                   console.log('error ', error);
                   notify('Failed to fetch listing data', 'error');
+                  setIsDrawerOpen(false);
                 } finally {
-                  setIsEditLoading(false);
+                  setEditingId(null);
                 }
               }}
               className='action-button-small blue'
-              disabled={isEditLoading}
+              disabled={editingId === row.original.lid}
             >
-              {isEditLoading ? (
-                <span className='loading-spinner'></span>
+              {editingId === row.original.lid ? (
+                <span className='loading-spinner small'></span>
               ) : (
                 <FiEdit size={18} />
               )}
@@ -163,13 +169,12 @@ const ListingsPage = () => {
         ),
       },
     ],
-    [getCategoryName, isEditLoading]
+    [getCategoryName, editingId]
   );
   const closeDrawer = useCallback(() => {
     setIsDrawerOpen(false);
     setSelectedListing({});
   }, []);
-  console.log('Object.keys', Object.keys(selectedListing ?? {}).length);
   return (
     <>
       <Drawer
@@ -185,6 +190,7 @@ const ListingsPage = () => {
           initialData={selectedListing}
           onSubmit={handleSubmit}
           onCancel={closeDrawer}
+          isSubmitting={isSubmitting}
         />
       </Drawer>
 
