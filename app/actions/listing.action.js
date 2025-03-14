@@ -525,3 +525,61 @@ export async function getListingDetails(lid) {
     return { error: 'Internal Server Error', status: 500 };
   }
 }
+
+export async function deleteListingById(lid) {
+  if (!lid) {
+    return {
+      success: false,
+      message: 'Listing ID is required',
+    };
+  }
+
+  try {
+    const conn = await getConnection();
+
+    try {
+      await conn.beginTransaction();
+
+      await conn.execute(`DELETE FROM social_media WHERE lid = ?`, [lid]);
+
+      await conn.execute(`DELETE FROM hours WHERE lid = ?`, [lid]);
+
+      await conn.execute(`DELETE FROM photos WHERE lid = ?`, [lid]);
+
+      await conn.execute(`DELETE FROM listing_category WHERE listing_id = ?`, [
+        lid,
+      ]);
+
+      const [result] = await conn.execute(`DELETE FROM listing WHERE lid = ?`, [
+        lid,
+      ]);
+
+      await conn.commit();
+
+      if (result.affectedRows === 0) {
+        return {
+          success: false,
+          message: 'Listing not found',
+        };
+      }
+
+      return {
+        success: true,
+        message: 'Listing deleted successfully',
+      };
+    } catch (error) {
+      await conn.rollback();
+      throw error;
+    } finally {
+      await conn.release();
+    }
+  } catch (error) {
+    console.log('Error:', error);
+
+    return {
+      success: false,
+      message: 'Failed to delete listing',
+      error: error.message,
+    };
+  }
+}

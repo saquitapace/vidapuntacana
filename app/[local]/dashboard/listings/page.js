@@ -9,6 +9,38 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useNotifications } from 'reapop';
 import '../styles.css';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
+
+const DeleteModal = ({ isOpen, onClose, onConfirm, isDeleting }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="delete-modal-overlay">
+      <div className="delete-modal">
+        <h3 className="delete-modal-title">Confirm Deletion</h3>
+        <p className="delete-modal-message">
+          Are you sure you want to delete this listing? This action cannot be undone.
+        </p>
+        <div className="delete-modal-actions">
+          <button 
+            onClick={onClose} 
+            className="delete-modal-button cancel"
+            disabled={isDeleting}
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={onConfirm} 
+            className="delete-modal-button delete"
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ListingsPage = () => {
   const [listings, setListings] = useState([]);
   const [selectedListing, setSelectedListing] = useState({});
@@ -19,6 +51,9 @@ const ListingsPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const { notify } = useNotifications();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [listingToDelete, setListingToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -95,14 +130,38 @@ const ListingsPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (lid) => {
+    setListingToDelete(lid);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      // For now, we'll just filter the listings
-      setListings(listings.filter((listing) => listing.id !== id));
-      notify('Listing deleted successfully', 'success');
+      setIsDeleting(true);
+      const response = await fetch(`/api/listings/${listingToDelete}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+
+      if (response.ok) {
+        setListings(listings.filter((listing) => listing.lid !== listingToDelete));
+        notify('Listing deleted successfully', 'success', {
+          position: 'top-center',
+          dismissAfter: 3000,
+        });
+      } else {
+        throw new Error(data.error || 'Failed to delete listing');
+      }
     } catch (error) {
       console.error('Error deleting listing:', error);
-      notify('Failed to delete listing', 'error');
+      notify(error.message || 'Failed to delete listing', 'error', {
+        position: 'top-center',
+        dismissAfter: 3000,
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+      setListingToDelete(null);
     }
   };
 
@@ -134,7 +193,7 @@ const ListingsPage = () => {
         cell: ({ row }) => (
           <div className='table-actions'>
             <button
-              onClick={() => handleDelete(row.original.id)}
+              onClick={() => handleDelete(row.original.lid)}
               className='action-button-small red'
             >
               <FiTrash2 size={18} />
@@ -213,6 +272,18 @@ const ListingsPage = () => {
           emptyMessage='No listings found. Create your first listing!'
         />
       </div>
+
+      <DeleteModal 
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          if (!isDeleting) {
+            setIsDeleteModalOpen(false);
+            setListingToDelete(null);
+          }
+        }}
+        onConfirm={confirmDelete}
+        isDeleting={isDeleting}
+      />
     </>
   );
 };
