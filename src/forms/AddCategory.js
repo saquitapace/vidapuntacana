@@ -11,7 +11,7 @@ const categorySchema = z.object({
     .max(50, { message: 'Category name cannot exceed 50 characters' }),
 });
 
-const CategoryForm = ({ onSubmit }) => {
+const CategoryForm = ({ onSubmit, initialData }) => {
   const {
     register,
     handleSubmit,
@@ -20,13 +20,13 @@ const CategoryForm = ({ onSubmit }) => {
   } = useForm({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: '',
+      name: initialData?.name || '',
     },
   });
 
   return (
     <div className='category-form-container'>
-      <h2>Add New Category</h2>
+      <h2>{initialData ? 'Edit Category' : 'Add New Category'}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='form-group'>
           <label htmlFor='name'>
@@ -44,7 +44,7 @@ const CategoryForm = ({ onSubmit }) => {
         </div>
 
         <button type='submit' className='submit-button' disabled={isSubmitting}>
-          {isSubmitting ? 'Adding...' : 'Add Category'}
+          {isSubmitting ? initialData ? 'Updating...' : 'Adding...' : initialData ? 'Update Category' : 'Add Category'}
         </button>
       </form>
     </div>

@@ -9,37 +9,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { useNotifications } from 'reapop';
 import '../styles.css';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { DeleteModal } from '@/src/components/DeleteModal';
 
-const DeleteModal = ({ isOpen, onClose, onConfirm, isDeleting }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="delete-modal-overlay">
-      <div className="delete-modal">
-        <h3 className="delete-modal-title">Confirm Deletion</h3>
-        <p className="delete-modal-message">
-          Are you sure you want to delete this listing? This action cannot be undone.
-        </p>
-        <div className="delete-modal-actions">
-          <button 
-            onClick={onClose} 
-            className="delete-modal-button cancel"
-            disabled={isDeleting}
-          >
-            Cancel
-          </button>
-          <button 
-            onClick={onConfirm} 
-            className="delete-modal-button delete"
-            disabled={isDeleting}
-          >
-            {isDeleting ? 'Deleting...' : 'Delete'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const ListingsPage = () => {
   const [listings, setListings] = useState([]);
@@ -282,7 +253,7 @@ const ListingsPage = () => {
           }
         }}
         onConfirm={confirmDelete}
-        isDeleting={isDeleting}
+        isLoading={isDeleting}
       />
     </>
   );
