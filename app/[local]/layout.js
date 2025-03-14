@@ -5,8 +5,9 @@ import NotificationProvider from '@/src/providers/NotificationProvider';
 import { NextIntlClientProvider } from 'next-intl';
 
 export const metadata = {
-  title: 'Fioxen',
-  description: 'Fioxen - Directory & Listing React Template',
+  title: 'Vidapuntacana',
+  description: 'Vidapuntacana',
+  image: '/logo.jpeg',
 };
 
 export default async function LocaleLayout({ children, params: { local } }) {

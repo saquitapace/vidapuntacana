@@ -48,7 +48,8 @@ const Header1 = () => {
             <div className='col-md-4'>
               <div className='top-content text-center'>
                 <p>
-                  {t('claim_business')} <Link href='http://localhost:3000/contact'>{t('here')}</Link>
+                  {t('claim_business')}{' '}
+                  <Link href='http://localhost:3000/contact'>{t('here')}</Link>
                 </p>
               </div>
             </div>
@@ -78,10 +79,21 @@ const Header1 = () => {
           <div className='primary-menu'>
             <div className='row'>
               <div className='col-lg-2 col-5'>
-                <div className='site-branding'>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    // padding: '10px',
+                  }}
+                >
                   <Link className='brand-logo' href='http://localhost:3000/en'>
                     <img
-                      src='/assets/images/logo/logo-1.png'
+                      style={{
+                        padding: '10px',
+                      }}
+                      src='/logo.jpeg'
+                      width={168}
+                      height={48}
                       alt='Brand Logo'
                     />
                   </Link>
